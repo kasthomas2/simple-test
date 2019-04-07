@@ -13,7 +13,7 @@ exports.handler = async (event, context) => {
   // queryStringParameters – it’ll be in the event body encoded as a query string
   const params = querystring.parse(event.body);
   const topic = params.topic || "DNA";
-  var myQuery = encodeURI('title:' + params.topic + '&fl=id,abstract&wt=json&indent=on');
+  var myQuery = encodeURI('title:' + params.topic + '&fl=title,id,abstract&wt=json&indent=on');
   var url = API_ENDPOINT + myQuery;
   
   return fetch(url)
