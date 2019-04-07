@@ -13,7 +13,7 @@
       <h2>Let's Query the PLOS Article Database!</h2>
      <p>We could fetch this directly from PLOS, but instead we will delegate the request to our lambda 
        function, which Netlify kindly deploys to AWS as part of our project, for free.</p>
-      <p>We will do this as a POST request. The code looks like this:</p>
+      <p>We will do the invocation of the lambda as a POST request. The code for the lambda looks like this:</p>
       <pre class="language-js"><code><%= require('html-loader!./lambda/fetch_post.js') %></code></pre>
       <h3>Try a query</h3>
       <form action="/.netlify/functions/fetch_post" method="POST">
@@ -22,7 +22,7 @@
         </p>
         <p><button type="submit">Search for it!</button></p>
       </form>
-      <p>Enter a topic, get back raw JSON. The first 10 hits (max) will be shown.</p>
+      <p>Enter a topic (e.g. "DNA," or "leprosy AND Mycobacterium"), get back raw JSON. The first 10 hits (max) will be shown.</p>
       <p><a href="/.netlify/functions/fetch_post?query=Me">Show me an error from using GET</a></p>
 
 
