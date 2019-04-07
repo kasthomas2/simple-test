@@ -69,6 +69,21 @@
     </article>
 
     <article>
+      <h2>Let's Try a Query</h2>
+      <p>We will make sure we only process POST requests for this.</p>
+      <pre class="language-js"><code><%= require('html-loader!./lambda/fetch_post.js') %></code></pre>
+      <h3>Try a query</h3>
+      <form action="/.netlify/functions/fetch_post" method="POST">
+        <p>
+          <label>What’s your topic?<br/><input type="text" name="topic"></label>
+        </p>
+        <p><button type="submit">Search for it!</button></p>
+      </form>
+      <p><a href="/.netlify/functions/fetch_post?query=Me">Show me the error</a></p>
+    </article>
+
+        
+    <article>
       <h2>Read environment variables</h2>
       <p>
         Storing secrets like API tokens can be tricky in web apps.
