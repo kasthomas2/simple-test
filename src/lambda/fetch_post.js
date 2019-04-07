@@ -21,7 +21,7 @@ exports.handler = async (event, context) => {
     .then(data => ({
       statusCode: 200,
       body: JSON.stringify(data).indexOf('"numFound":0')!=-1? 
-        "The url that failed was:\n" + url :  JSON.stringify(data)
+        "The url that failed was:\n" + url :  JSON.stringify(data,null,4)
     }))
     .catch(error => ({ statusCode: 422, body: String(error) }));
 };
