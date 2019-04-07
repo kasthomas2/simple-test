@@ -1,5 +1,11 @@
 # Netlify Functions examples
 
+Most of this is just the standard Netlify examples-playground project. The index.html file has been changed to show my own example of querying the PLOS database via a lambda function. That example is live at https://heuristic-panini-8528fb.netlify.com/.
+
+The rest of this (below) is Netlify's boilerplate. -- KT
+
+##The Playground
+
 Hi there! This is a playground repo to test out [Netlify’s Lambda Functions](https://www.netlify.com/docs/functions). You can see a live
 demo of the examples at https://functions-playground.netlify.com.
 
