@@ -1,5 +1,6 @@
 :root {
   --baseFontSize: 18px;
+  --smallFontSize: 12px;
   --fontFamilySans: Roboto, sans-serif,
     "Segoe UI Emoji", "Segoe UI Symbol";
   --fontFamilyMono: "Roboto Mono", monospace;
