@@ -13,7 +13,7 @@ exports.handler = async (event, context) => {
   // queryStringParameters – it’ll be in the event body encoded as a query string
   const params = querystring.parse(event.body);
   const topic = params.topic || "DNA";
-  var myQuery = encodeURI('title:"' + params.topic + '"&fl=id,abstract&wt=json&indent=on');
+  var myQuery = encodeURI('title:' + params.topic + '&fl=id,abstract&wt=json&indent=on');
   var url = API_ENDPOINT + myQuery;
   
   return fetch(url)
@@ -21,7 +21,7 @@ exports.handler = async (event, context) => {
     .then(data => ({
       statusCode: 200,
       body: JSON.stringify(data).indexOf('"numFound":0')!=0? 
-        "The url was:<br/>" + url :  JSON.stringify(data)
+        "The url was:\n" + url :  JSON.stringify(data)
     }))
     .catch(error => ({ statusCode: 422, body: String(error) }));
 };
