@@ -9,10 +9,8 @@ exports.handler = async (event, context) => {
     return { statusCode: 405, body: "Method Not Allowed" };
   }
 
-  // When the method is POST, the topic will not be in the event’s
-  // queryStringParameters – it’ll be in the event body encoded as a query string
+  // Since this is a POST, the topic will be in the event body as a query string
   const params = querystring.parse(event.body);
-  // const topic = params.topic || "DNA";
   var myQuery = encodeURI('title:' + params.topic + '&fl=title,id,abstract&wt=json&indent=on');
   var url = API_ENDPOINT + myQuery;
   
