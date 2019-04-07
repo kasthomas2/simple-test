@@ -14,12 +14,14 @@ exports.handler = async (event, context) => {
   const params = querystring.parse(event.body);
   const topic = params.topic || "DNA";
   var myQuery = encodeURI('title:%22' + params.topic + '%22&fl=id,abstract&wt=json&indent=on');
-
-  return fetch(API_ENDPOINT + myQuery)
+  var url = API_ENDPOINT + myQuery;
+  
+  return fetch(url)
     .then(response => response.json())
     .then(data => ({
       statusCode: 200,
-      body: JSON.stringify(data)  /* `${data.setup} ${data.punchline} *BA DUM TSSS*` */
+      body: JSON.stringify(data).indexOf('"numFound":0')!=0? 
+        "The url was:<br/>" + url :  JSON.stringify(data); /* `${data.setup} ${data.punchline} *BA DUM TSSS*` */
     }))
     .catch(error => ({ statusCode: 422, body: String(error) }));
 };
