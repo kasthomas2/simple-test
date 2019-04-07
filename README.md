@@ -4,7 +4,7 @@ Most of this is just the standard Netlify examples-playground project. The index
 
 The rest of this (below) is Netlify's boilerplate. -- KT
 
-##The Playground
+## The Playground
 
 Hi there! This is a playground repo to test out [Netlify’s Lambda Functions](https://www.netlify.com/docs/functions). You can see a live
 demo of the examples at https://functions-playground.netlify.com.
