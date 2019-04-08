@@ -62,13 +62,14 @@ exports.handler = async (event, context) => {
       
       </code></pre>
       <h3>Try a query</h3>
+      <p style="font-size: var(--smallFontSize)">Enter a science topic (e.g. "DNA," "vaccine," or "leprosy AND Mycobacterium"). Retrieves abstracts and titles for the first ten hits. 
       <form action="/.netlify/functions/fetch_post" method="POST">
         <p>
-          <label>What’s your topic?<br/><input type="text" name="topic"></label>
+          <label>What’s your topic?<br/><input type="text" name="topic" placeholder="Lyme disease"></label>
         </p>
         <p><button type="submit">Search for it!</button></p>
       </form>
-      <p>Enter a topic (e.g. "DNA," or "leprosy AND Mycobacterium"), get back raw JSON. The first 10 hits (max) will be shown.</p>
+     
       <p><a href="/.netlify/functions/fetch_post?query=Me">Show me an error from using GET</a></p>
 
 
