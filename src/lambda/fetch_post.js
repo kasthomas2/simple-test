@@ -19,6 +19,7 @@ exports.handler = async (event, context) => {
     .then(response => response.json())
     .then(data => ({
       statusCode: 200,
+      headers: {"content-type": "text/html"},
       body: JSON.stringify(data).indexOf('"numFound":0')!=-1? 
         "The url that failed was:\n" + url : JSON.stringify(data,null,4) 
     }))
