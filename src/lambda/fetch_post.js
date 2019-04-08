@@ -5,15 +5,15 @@ const API_ENDPOINT = "http://api.plos.org/search?q=";
 
 function applyMarkup(d) {
     var base = "https://journals.plos.org/plosgenetics/article?id=";
-    var markup = `'<!doctype html><html lang="en">';`
-    markup += `'<head><link href="/styles.css" rel="stylesheet"></head>';`
-    markup += `'<body>';`
-    markup += `'<div style="font-size: var(--smallFontSize)"'`
-    markup += `'<b>Articles: ' + d.response.numFound + "</b><br/><br/>"; `
-    markup += `d.response.docs.map( i=>['<h2>'+i.title+'</h2>',
+    var markup = '<!doctype html><html lang="en">';
+    markup += '<head><link href="/styles.css" rel="stylesheet"></head>';
+    markup += '<body>';
+    markup += '<div style="font-size: var(--smallFontSize)"'
+    markup += '<b>Articles: ' + d.response.numFound + "</b><br/><br/>"; 
+    markup += d.response.docs.map( i=>['<h2>'+i.title+'</h2>',
         '<p>'+i.abstract+' </p>',
        '<a href="' + base + i.id + '">Article</a><br/>'].join('') ).join('<br/>');
-    markup += '<br/><br/><a href="https://heuristic-panini-8528fb.netlify.com/">Do another search</a></div></body></html>' ;`
+    markup += '<br/><br/><a href="https://heuristic-panini-8528fb.netlify.com/">Do another search</a></div></body></html>' ;
     return markup;
 }
 
