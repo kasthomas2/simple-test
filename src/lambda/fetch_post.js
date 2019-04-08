@@ -3,15 +3,6 @@ import fetch from "node-fetch";
 
 const API_ENDPOINT = "http://api.plos.org/search?q=";
 
-function applyMarkup(d) {
-    var base = "https://journals.plos.org/plosgenetics/article?id=";
-    var markup = "<html><body><b>Articles: " + d.response.numFound + "</b><br/><br/>"; 
-    var markup = d.response.docs.map( i=>['<h4>'+i.title+'</h4>',
-        '<p>'+i.abstract+' </p>',
-       '<a href="' + base + i.id + '>Article</a><br/>'].join('') ).join('\n');
-    markup += '<br/><br/><a href="https://heuristic-panini-8528fb.netlify.com/">Do another search</a></body></html>' ;
-    return markup;
-}
 
 exports.handler = async (event, context) => {
   // Only allow POST
@@ -29,7 +20,7 @@ exports.handler = async (event, context) => {
     .then(data => ({
       statusCode: 200,
       body: JSON.stringify(data).indexOf('"numFound":0')!=-1? 
-        "The url that failed was:\n" + url :  applyMarkup(data) /* JSON.stringify(data,null,4) */
+        "The url that failed was:\n" + url : JSON.stringify(data,null,4) 
     }))
     .catch(error => ({ statusCode: 422, body: String(error) }));
 };
