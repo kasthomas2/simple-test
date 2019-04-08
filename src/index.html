@@ -21,9 +21,10 @@ import fetch from "node-fetch";
 
 const API_ENDPOINT = "http://api.plos.org/search?q=";
 
+// Apply some basic markup to the results
 function applyMarkup(d) {
     var base = "https://journals.plos.org/plosgenetics/article?id=";
-    var markup = '&lt;!doctype html>&lt;html lang="en">'; // not rendering
+    var markup = '&lt;!doctype html>&lt;html lang="en">'; 
     markup += '&lthead>&lt;link href="/styles.css" rel="stylesheet">&lt;/head>';
     markup += '&lt;body>';
     markup += '&lt;div style="font-size: var(--smallFontSize)"'
@@ -36,6 +37,7 @@ function applyMarkup(d) {
 }
 
 exports.handler = async (event, context) => {
+
   // Only allow POST
   if (event.httpMethod !== "POST") {
     return { statusCode: 405, body: "Method Not Allowed" };
