@@ -5,7 +5,7 @@ const API_ENDPOINT = "http://api.plos.org/search?q=";
 
 function applyMarkup(d) {
     var base = "https://journals.plos.org/plosgenetics/article?id=";
-    var markup = '<!doctype html><html lang="en">';
+    var markup = '<!doctype html><html lang="en">'; // not rendering
     markup += '<head><link href="/styles.css" rel="stylesheet"></head>';
     markup += '<body>';
     markup += '<div style="font-size: var(--smallFontSize)"'
