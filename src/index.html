@@ -62,10 +62,10 @@ exports.handler = async (event, context) => {
       
       </code></pre>
       <h3>Try a query</h3>
-      <p style="font-size: var(--smallFontSize)">Enter a science topic (e.g. "DNA," "vaccine," or "leprosy AND Mycobacterium"). Retrieves abstracts and titles for the first ten hits. 
+      <p style="font-size: var(--smallFontSize)">Enter a science topic (e.g. "DNA," "Lyme disease," or "leprosy AND Mycobacterium"). Retrieves abstracts and titles for the first ten hits. 
       <form action="/.netlify/functions/fetch_post" method="POST">
         <p>
-          <label>What’s your topic?<br/><input type="text" name="topic">Lyme disease</label>
+          <label>What’s your topic?<br/><input type="text" name="topic"></label>
         </p>
         <p><button type="submit">Search for it!</button></p>
       </form>
