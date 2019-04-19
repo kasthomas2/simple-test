@@ -4,7 +4,7 @@
   "description": "Playground stuff",
   "private": true,
   "scripts": {
-  
+    "docs": "", 
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "concurrently 'yarn start:client' 'yarn start:server'",
     "start:client": "webpack-dev-server --mode development --hot --config webpack.client.js",
