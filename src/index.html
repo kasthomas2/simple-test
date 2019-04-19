@@ -5,71 +5,70 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,500|Roboto+Mono" rel="stylesheet">
     <link href="/normalize.css" rel="stylesheet">
     <link href="/styles.css" rel="stylesheet">
+    
+    <script>
+      
+      function login() {
+
+        var username = document.querySelector("#username").value;
+        var pw = document.querySelector("#pw").value;
+        
+        
+      }
+      
+      function loginAndGetToken( username, pw ) {
+
+        var q = 'mutation userLogin { userLogin(input: {userName: "' + username + '" password: "' + pw + '"}) {token}}';
+
+        fetch("https://api.veritone.com/v3/graphql", {
+
+          body: JSON.stringify({
+              "query": q
+          }),
+          headers: {
+              "Content-Type": "application/json"
+          },
+          method: "POST"
+
+          }).then(function(response) {
+
+          if (!response.ok) {
+              alert( "Oops. We got a " + response.status);
+              throw new Error("HTTP error, status = " + response.status);
+          }
+
+          return response.json();
+    
+          }).then(json=>{
+              var token = json.data.userLogin.token;
+              console.log(JSON.stringify(json));
+              prompt("Successful log-in.\n\nYour token is:\n", token);
+          });
+      } // loginAndGetToken()
+      
+    </script>
+    
   </head>
   <body>
-    <h1>Netlify Lambda Example</h1>   
+    <h1>Log-In Example</h1>   
     
-      <h2>Let's Query the PLOS Article Database!</h2>
-     <p>We could fetch this directly from PLOS, but instead we will delegate the request to our lambda 
-       function, which Netlify kindly deploys to AWS as part of our project, for free.</p>
-      <p>We will do the invocation of the lambda as a POST request. The code for the lambda looks like this:</p>
-      <pre class="language-js">
+     <h2>Log In</h2>
+     <p>First we need to log in to the system.</p> 
+    
+     <h3>Try It</h3>
+    <p style="font-size: var(--smallFontSize)">Enter your Veritone Developer credentials. </p> 
       
-      <code>
-import querystring from "querystring";
-import fetch from "node-fetch";
+     <p>
+          <label>User Name<br/><input id="username" type="text" name="username"></label>
+     </p>
+     <p>
+          <label>Password<br/><input id="pw" type="text" name="pw"></label>
+     </p>
+ 
+     <p><button onclick="login()">Log in</button></p>
+     
 
-const API_ENDPOINT = "http://api.plos.org/search?q=";
-
-// Apply some basic markup to the results
-function applyMarkup(d) {
-    var base = "https://journals.plos.org/plosgenetics/article?id=";
-    var markup = '&lt;!doctype html>&lt;html lang="en">'; 
-    markup += '&lthead>&lt;link href="/styles.css" rel="stylesheet">&lt;/head>';
-    markup += '&lt;body>';
-    markup += '&lt;div style="font-size: var(--smallFontSize)"'
-    markup += '&lt;b>Articles: ' + d.response.numFound + "&lt;/b>&lt;br/>&lt;br/>"; 
-    markup += d.response.docs.map( i=>['&lt;h2>'+i.title+'&lt;/h2>',
-        '&lt;p>'+i.abstract+' &lt;/p>',
-       '&lt;a href="' + base + i.id + '">Article&lt;/a>&lt;br/>'].join('') ).join('&lt;br/>');
-    markup += '&lt;br/>&lt;br/>&lt;a href="https://heuristic-panini-8528fb.netlify.com/">Do another search&lt;/a>&lt;/div>&lt;/body>&lt;/html>' ;
-    return markup;
-}
-
-exports.handler = async (event, context) => {
-
-  // Only allow POST
-  if (event.httpMethod !== "POST") {
-    return { statusCode: 405, body: "Method Not Allowed" };
-  }
-
-  // Since this is a POST, the topic will be in the event body as a query string
-  const params = querystring.parse(event.body);
-  var myQuery = encodeURI('title:' + params.topic + '&fl=title,id,abstract&wt=json&indent=on');
-  var url = API_ENDPOINT + myQuery;
-  
-  return fetch(url)
-    .then(response => response.json())
-    .then(data => ({
-      statusCode: 200,
-      headers: {"content-type": "text/html"},
-      body: JSON.stringify(data).indexOf('"numFound":0')!=-1? 
-        "The url that failed was:\n" + url : applyMarkup(data) /* JSON.stringify(data,null,4) */
-    }))
-    .catch(error => ({ statusCode: 422, body: String(error) }));
-};
-   
-      </code></pre>
-      <h3>Try a query</h3>
-      <p style="font-size: var(--smallFontSize)">Enter a science topic (e.g. "DNA," "Lyme disease," or "leprosy AND Mycobacterium"). Retrieves abstracts and titles for the first ten hits. 
-      <form action="/.netlify/functions/fetch_post" method="POST">
-        <p>
-          <label>What’s your topic?<br/><input type="text" name="topic"></label>
-        </p>
-        <p><button type="submit">Search for it!</button></p>
-      </form>
-
-    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.14.0/prism.min.js"></script>
-    <script src="main.js"></script>    
+     <script src="https://cdn.jsdelivr.net/npm/prismjs@1.14.0/prism.min.js"></script>
+     <script src="main.js"></script>    
   </body>
 </html>
