@@ -26,19 +26,19 @@ exports.handler = async (event, context) => {
   // Since this is a POST, the token will be in the event body as a query string
   const params = querystring.parse(event.body);
   
-  let headers = {
-    'Authorization': 'Bearer ' + params.token,
-    'Content-Type': 'application/json'
+  let myHeaders = {
+    "Authorization": "Bearer " + params.token,
+    "Content-Type": "application/json"
   };
   
   var url = API_ENDPOINT;
   
-  return fetch(url, { method: 'POST', headers: headers, body: { query: myQuery } } )
+  return fetch(url, { method: 'POST', headers: myHeaders, body: { query: myQuery } } )
     .then(response => response.json())
     .then(data => ({
       statusCode: 200,
       headers: {"content-type": "application/json"},
       body: data
     }))
-    .catch(error => ({ statusCode: 422, body: String(error) }));
+    .catch(error => ({ statusCode: 422, body: String(error) + params.token }));
 };
