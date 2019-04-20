@@ -18,22 +18,21 @@ import fetch from "node-fetch";
     // GraphQL server endpoint:
     var API_ENDPOINT = "https://api.veritone.com/v3/graphql";
 
-exports.handler =  function(event, context, callback) {
+exports.handler =  function(event, context) {
 
     var params = null;
     var token = null;
+    
+    token = event.queryStringParameters.token;
     
     //Check for POST
     if (event.httpMethod == "POST") {
         params = querystring.parse(event.body);
         token = params.token;
-    } // Check for GET
-    else if (event.httpMethod == "GET") {
-        token = event.queryStringParameters.token;
-    } // Disallow other verbs
+    } 
 
     var theHeaders = {
-        "Authorization": "Bearer " + params.token,
+        "Authorization": "Bearer " + token,
         "Content-Type": "application/json"
     };
 
@@ -52,9 +51,7 @@ exports.handler =  function(event, context, callback) {
         statusCode: 200,
         headers: {
             "Content-Type": "text/plain",
-           
-            "Access-Control-Allow-Origin": "*",
-           
+            "Access-Control-Allow-Origin": "*", 
             "Access-Control-Allow-Credentials": true 
         },
         body: JSON.stringify(data) + " \nevent: " + JSON.stringify( event, null, 2 )
