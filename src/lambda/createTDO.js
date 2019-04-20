@@ -26,10 +26,10 @@ exports.handler = async (event, context) => {
 
     // DEBUG
     var t = (event.httpMethod == "GET") ? querystring.parse(event.queryStringParameters) : querystring.parse(event.body);
-    return {
+    return JSON.stringify({
             statusCode: 405,
             body: "Method Not Allowed " + "\nTOKEN " + t + "\n" + JSON.stringify(event, null, 2)
-        };
+        });
     
     
     
