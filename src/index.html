@@ -8,11 +8,16 @@
     
     <script>
       
+      let API_ENDPOINT = "https://api.veritone.com/v3/graphql";
+      
+      function showMessage( msg ) {
+        var messageNode = document.querySelector("#message");
+        messageNode.innerHTML = msg;
+      }
+      
       function login() {
-
         var username = document.querySelector("#username").value;
-        var pw = document.querySelector("#pw").value;
-        
+        var pw = document.querySelector("#pw").value;     
         loginAndGetToken( username, pw );
       }
       
@@ -20,8 +25,7 @@
 
         var q = 'mutation userLogin { userLogin(input: {userName: "' + username + '" password: "' + pw + '"}) {token}}';
 
-        fetch("https://api.veritone.com/v3/graphql", {
-
+        fetch( API_ENDPOINT, {
           body: JSON.stringify({
               "query": q
           }),
@@ -29,8 +33,7 @@
               "Content-Type": "application/json"
           },
           method: "POST"
-
-          }).then(function(response) {
+      }).then(function(response) {
 
           if (!response.ok) {
               alert( "Oops. We got a " + response.status);
@@ -39,10 +42,10 @@
 
           return response.json();
     
-          }).then(json=>{
+      }).then(json=>{
               var token = json.data.userLogin.token;
               console.log(JSON.stringify(json));
-              prompt("Successful log-in.\n\nYour token is:\n", token);
+              showMessage("Successful log-in!<br/>Your token is: " + token);
           });
       } // loginAndGetToken()
       
@@ -50,13 +53,9 @@
     
   </head>
   <body>
-    <h1>Log-In Example</h1>   
-    
-     <h2>Log In</h2>
-     <p>First we need to log in to the system.</p> 
-    
-     <h3>Try It</h3>
-    <p style="font-size: var(--smallFontSize)">Enter your Veritone Developer credentials. </p> 
+    <h1>Log-In</h1>   
+
+     <p id="message">First we need to log in to the system. Enter your Veritone Developer credentials below. </p> 
       
      <p>
           <label>User Name<br/><input id="username" type="text" name="username"></label>
@@ -65,8 +64,7 @@
           <label>Password<br/><input id="pw" type="text" name="pw"></label>
      </p>
  
-     <p><button onclick="login()">Log in</button></p>
-     
+     <p><button onclick="login()">Log in</button></p>    
 
      <script src="https://cdn.jsdelivr.net/npm/prismjs@1.14.0/prism.min.js"></script>
      <script src="main.js"></script>    
