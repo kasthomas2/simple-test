@@ -16,6 +16,8 @@ let myQuery = `mutation {
 }
  `;
 
+
+
 const API_ENDPOINT = 'https://api.veritone.com/v3/graphql';
 
 exports.handler = async (event, context) => {
@@ -35,7 +37,10 @@ exports.handler = async (event, context) => {
     //said this was not vali JSON
  var q = 'mutation userLogin { userLogin(input: {userName: "kthomas@veritone.com" password: "Techfish18!"}) {token}}';
     
-  return fetch(API_ENDPOINT, { method: 'POST', headers: theHeaders, body: JSON.stringify( query:myQuery ) } )
+  var oneLineQuery = myQuery.replace( /\n/g,"" );
+  var queryJSON = { query: oneLineQuery };
+    
+  return fetch(API_ENDPOINT, { method: 'POST', headers: theHeaders, body: JSON.stringify( queryJSON ) } )
     .then(response => response.json())
     .then(data => ({
       statusCode: 200,
