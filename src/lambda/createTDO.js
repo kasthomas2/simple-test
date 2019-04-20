@@ -2,14 +2,6 @@
 import querystring from "querystring";
 import fetch from "node-fetch";
 
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
-
-app.use(require("body-parser").json());
-
 var myQuery = `mutation {
   createTDO(
     input: {
@@ -33,7 +25,7 @@ exports.handler = async (event, context) => {
     return { statusCode: 405, body: "Method Not Allowed " + JSON.stringify(event,null,2) };
   }
   if (event.body == "" || !event.body) {
-    return { statusCode: 405, body: "Empty body??? " + JSON.stringify(event,null,2) };
+    return { statusCode: 405, body: "Empty body??? " };
   }
 
   // Since this is a POST, the token will be in the event body as a query string
@@ -43,10 +35,7 @@ exports.handler = async (event, context) => {
     "Authorization": "Bearer " + params.token, 
     "Content-Type": "application/json"
   };
-    
-  if (!params.token)
-      throw "NO TOKEN";
-    
+
     // works
   var q = 'mutation userLogin { userLogin(input: {userName: "kthomas@veritone.com" password: "xxxxxxx"}) {token}}';
     
@@ -57,7 +46,10 @@ exports.handler = async (event, context) => {
     .then(response => response.json())
     .then(data => ({
       statusCode: 200,
-      headers: {"content-type": "text/plain" /* "application/json" */},
+      headers: { "content-type": "text/plain", /* "application/json" */
+                 "Access-Control-Allow-Origin" : "*", /* Required for CORS support to work */
+                 "Access-Control-Allow-Credentials" : true /* Required for cookies, authorization */
+               }, 
       body: JSON.stringify(data) 
     }))
     .catch(error => ({ statusCode: 422, body: String(error) }));
