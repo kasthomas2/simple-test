@@ -18,7 +18,7 @@ import fetch from "node-fetch";
     // GraphQL server endpoint:
     var API_ENDPOINT = 'https://api.veritone.com/v3/graphql';
 
-exports.handler = async (event, context, callback) => {
+exports.handler = async function(event, context, callback) {
 
     var params = null;
     var token = null;
