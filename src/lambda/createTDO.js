@@ -16,9 +16,9 @@ import fetch from "node-fetch";
   `;
 
     // GraphQL server endpoint:
-    var API_ENDPOINT = 'https://api.veritone.com/v3/graphql';
+    var API_ENDPOINT = "https://api.veritone.com/v3/graphql";
 
-exports.handler = async function(event, context, callback) {
+exports.handler =  function(event, context, callback) {
 
     var params = null;
     var token = null;
@@ -29,7 +29,12 @@ exports.handler = async function(event, context, callback) {
             statusCode: 405,
             body: "Method Not Allowed " + "\nTOKEN " + t + "\n" + JSON.stringify(event, null, 2)
         }) );
-    
+    }; // end of lambda
+
+
+
+
+
    /* 
     
     //Check for POST
@@ -82,4 +87,4 @@ exports.handler = async function(event, context, callback) {
         body: String(error)
     }));
 */
-}; // end of lambda
+
