@@ -43,7 +43,7 @@ exports.handler = async (event, context) => {
     .then(data => ({
       statusCode: 200,
       headers: {"content-type": "text/plain" /* "application/json" */},
-      body: JSON.stringify(data)
+      body: JSON.stringify(data).indexOf("invalid")!=-1 ? params.token + " was invalid?" : JSON.stringify(data)
     }))
     .catch(error => ({ statusCode: 422, body: String(error) }));
   
