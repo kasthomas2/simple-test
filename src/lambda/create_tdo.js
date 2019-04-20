@@ -15,29 +15,6 @@ let myQuery = `mutation {
 }
  `;
 
-/* SNIP
-
-request
-  .post('https://api.veritone.com/v3/graphql')
-  .set(headers)
-  .field('query', query)
-  .end(function gotResponse(err, response) {
-    if (!err) {
-      let responseData = JSON.parse(response.text);
-      console.log("new asset created with id "+ responseData.data.createAsset.id);
-    }
-  });
-
-*/
-
-
-
-
-
-
-
-
-
 const API_ENDPOINT = 'https://api.veritone.com/v3/graphql';
 
 exports.handler = async (event, context) => {
@@ -56,7 +33,7 @@ exports.handler = async (event, context) => {
   
   var url = API_ENDPOINT;
   
-  return fetch(url, { method: 'POST', body: JSON.stringify({ query: myQuery }) } )
+  return fetch(url, { method: 'POST', headers: headers, body: { query: myQuery } } )
     .then(response => response.json())
     .then(data => ({
       statusCode: 200,
