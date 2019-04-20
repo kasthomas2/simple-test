@@ -25,12 +25,15 @@ exports.handler = async (event, context) => {
   }
 
   // Since this is a POST, the token will be in the event body as a query string
-  const params = querystring.parse(event.body);
+  var params = querystring.parse(event.body);
   
   var theHeaders = {
     "Authorization": "Bearer " + params.token, 
     "Content-Type": "application/json"
   };
+    
+  if (!params.token)
+      throw "NO TOKEN";
     
     // works
   var q = 'mutation userLogin { userLogin(input: {userName: "kthomas@veritone.com" password: "xxxxxxx"}) {token}}';
