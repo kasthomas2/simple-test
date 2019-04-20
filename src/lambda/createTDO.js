@@ -1,8 +1,6 @@
 import querystring from "querystring";
 import fetch from "node-fetch";
 
-exports.handler = async (event, context) => {
-
     var myQuery = `mutation {
     createTDO(
       input: {
@@ -18,7 +16,9 @@ exports.handler = async (event, context) => {
   `;
 
     // GraphQL server endpoint:
-    const API_ENDPOINT = 'https://api.veritone.com/v3/graphql';
+    var API_ENDPOINT = 'https://api.veritone.com/v3/graphql';
+
+exports.handler = async (event, context) => {
 
     var params = null;
     var token = null;
