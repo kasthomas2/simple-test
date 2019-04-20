@@ -15,7 +15,7 @@ let myQuery = `mutation {
 }
  `;
 
-var myJsonRequest = { "query": "{me{}}" };
+var myJsonRequest = { "query": "query { me{}}" };
 
 const API_ENDPOINT = 'https://api.veritone.com/v3/graphql';
 
@@ -29,10 +29,8 @@ exports.handler = async (event, context) => {
   const params = querystring.parse(event.body);
   
   var myHeaders = {
-    "Authorization": "Bearer " + params.token
-     
-      /*,
-    "Content-Type": "application/json" */
+    "Authorization": "Bearer " + params.token,
+    "Content-Type": "application/json" 
   };
   
   var url = API_ENDPOINT;
