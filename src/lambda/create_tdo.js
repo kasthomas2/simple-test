@@ -41,8 +41,8 @@ exports.handler = async (event, context) => {
         method: 'POST', 
         headers: myHeaders, 
         body: JSON.stringify( js ) 
-    } ) 
-    .then(response => response.json())
+    } 
+    ).then(response => response.json())
     .then(data => ({
       statusCode: 200,
       headers: {"content-type": "text/plain" /* "application/json" */},
