@@ -1,7 +1,7 @@
 import querystring from "querystring";
 import fetch from "node-fetch";
 
-    var myQuery = `mutation {
+var myQuery = `mutation {
     createTDO(
       input: {
         startDateTime: 1548432520,
@@ -15,20 +15,16 @@ import fetch from "node-fetch";
   }
   `;
 
-    // GraphQL server endpoint:
-    var API_ENDPOINT = "https://api.veritone.com/v3/graphql";
+// GraphQL server endpoint:
+var API_ENDPOINT = "https://api.veritone.com/v3/graphql";
 
 exports.handler =  function(event, context) {
 
-    var params = null;
-    var token = null;
+    var token = event.queryStringParameters.token;
     
-    token = event.queryStringParameters.token;
-    
-    //Check for POST
-    if (event.httpMethod == "POST") {
-        params = querystring.parse(event.body);
-        token = params.token;
+    // Disallow anything but GET
+    if (event.httpMethod != "GET") {
+        return { statusCode: 405, body: "Method Not Allowed" };
     } 
 
     var theHeaders = {
@@ -60,4 +56,3 @@ exports.handler =  function(event, context) {
         body: String(error)
     }));
 }; // end of lambda
-
