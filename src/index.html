@@ -43,7 +43,7 @@
           return response.json();
     
       }).then(json=>{
-              if ( !("token" in json.data.userLogin) ) {
+              if ( !json.data.userLogin ) {
                 alert("That log-in didn't work.");
                 return;
               }
