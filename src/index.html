@@ -43,6 +43,10 @@
           return response.json();
     
       }).then(json=>{
+              if ( !("token" in json.data.userLogin) ) {
+                alert("That log-in didn't work.");
+                return;
+              }
               var token = json.data.userLogin.token;
               console.log(JSON.stringify(json));
               showMessage("Successful log-in!<br/>Your token is: " + token);
