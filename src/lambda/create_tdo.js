@@ -29,7 +29,7 @@ exports.handler = async (event, context) => {
   const params = querystring.parse(event.body);
   
   var myHeaders = {
-    "Authorization": "Bearer " + params.token,
+    "Authorization": "Bearer " + params.token
      
       /*,
     "Content-Type": "application/json" */
