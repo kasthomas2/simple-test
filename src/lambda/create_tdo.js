@@ -35,7 +35,7 @@ exports.handler = async (event, context) => {
     //said this was not vali JSON
  var q = 'mutation userLogin { userLogin(input: {userName: "kthomas@veritone.com" password: "Techfish18!"}) {token}}';
     
-  return fetch(API_ENDPOINT, { method: 'POST', headers: theHeaders, body: JSON.stringify( myQuery ) } )
+  return fetch(API_ENDPOINT, { method: 'POST', headers: theHeaders, body: JSON.stringify( query:myQuery ) } )
     .then(response => response.json())
     .then(data => ({
       statusCode: 200,
