@@ -29,7 +29,7 @@ exports.handler = async (event, context) => {
   
   var theHeaders = {
     "Authorization": "Bearer " + params.token, 
-    "Content-Type": "application/json;charset=utf-8"
+    "Content-Type": "application/json"
   };
     
     // said this was not valid JSON
