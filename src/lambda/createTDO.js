@@ -2,7 +2,10 @@
 import querystring from "querystring";
 import fetch from "node-fetch";
 
-var myQuery = `mutation {
+
+exports.handler = async (event, context) => {
+    
+  var myQuery = `mutation {
   createTDO(
     input: {
       startDateTime: 1548432520,
@@ -18,8 +21,6 @@ var myQuery = `mutation {
 
 const API_ENDPOINT = 'https://api.veritone.com/v3/graphql';
 
-exports.handler = async (event, context) => {
-    
   // Only allow incoming POST
   if (event.httpMethod !== "POST") {
     return { statusCode: 405, body: "Method Not Allowed " + JSON.stringify(event,null,2) };
@@ -46,7 +47,7 @@ exports.handler = async (event, context) => {
     .then(response => response.json())
     .then(data => ({
       statusCode: 200,
-      headers: { "content-type": "text/plain", /* "application/json" */
+      headers: { "Content-Type": "text/plain", /* "application/json" */
                  "Access-Control-Allow-Origin" : "*", /* Required for CORS support to work */
                  "Access-Control-Allow-Credentials" : true /* Required for cookies, authorization */
                }, 
