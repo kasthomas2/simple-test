@@ -29,11 +29,13 @@ exports.handler = async (event, context) => {
   
   var theHeaders = {
     /* "Authorization": "Bearer " + params.token, */
-    "Content-Type": "application/json"
+    "Content-Type": "application/json;charset=utf-8"
   };
+    
+    //said this was not vali JSON
  var q = 'mutation userLogin { userLogin(input: {userName: "kthomas@veritone.com" password: "Techfish18!"}) {token}}';
     
-  return fetch(API_ENDPOINT, { method: 'POST', headers: theHeaders, body: JSON.stringify( q ) } )
+  return fetch(API_ENDPOINT, { method: 'POST', headers: theHeaders, body: JSON.stringify( myQuery ) } )
     .then(response => response.json())
     .then(data => ({
       statusCode: 200,
