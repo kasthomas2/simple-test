@@ -36,7 +36,7 @@ exports.handler = async (event, context) => {
  var q = 'mutation userLogin { userLogin(input: {userName: "kthomas@veritone.com" password: "Techfish18!"}) {token}}';
     
   var oneLineQuery = myQuery.replace( /\n/g,"" );
-  var queryJSON = { query: oneLineQuery };
+  var queryJSON = { query: q /* oneLineQuery */ };
     
   return fetch(API_ENDPOINT, { method: 'POST', headers: theHeaders, body: JSON.stringify( queryJSON ) } )
     .then(response => response.json())
