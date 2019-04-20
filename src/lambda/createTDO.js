@@ -1,7 +1,6 @@
 import querystring from "querystring";
 import fetch from "node-fetch";
 
-
 exports.handler = async (event, context) => {
 
     var myQuery = `mutation {
@@ -31,7 +30,7 @@ exports.handler = async (event, context) => {
             body: "Method Not Allowed " + "\nTOKEN " + t + "\n" + JSON.stringify(event, null, 2)
         });
     
-    
+   /* 
     
     //Check for POST
     if (event.httpMethod == "POST") {
@@ -72,15 +71,15 @@ exports.handler = async (event, context) => {
         statusCode: 200,
         headers: {
             "Content-Type": "text/plain",
-            /* "application/json" */
+           
             "Access-Control-Allow-Origin": "*",
-            /* Required for CORS support to work */
-            "Access-Control-Allow-Credentials": true /* Required for cookies, authorization */
+           
+            "Access-Control-Allow-Credentials": true 
         },
         body: JSON.stringify(data)
     })).catch(error => ({
         statusCode: 422,
         body: String(error)
     }));
-
+*/
 }; // end of lambda
