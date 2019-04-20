@@ -33,12 +33,12 @@ exports.handler = async (event, context) => {
   
   var url = API_ENDPOINT;
  
-  var myJsonRequest = {query: "query{me{id}}"};
+  var myJsonRequest = {query: "{me{id}}"};
   
   return fetch(url, { 
         method: 'POST', 
         headers: myHeaders, 
-        body: JSON.stringify( myJsonRequest ) 
+        body: "{\"query\":\"{me{id}}\"}" 
     } 
     ).then(response => response.json())
     .then(data => ({
