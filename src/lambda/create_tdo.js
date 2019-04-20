@@ -32,11 +32,11 @@ exports.handler = async (event, context) => {
     "Content-Type": "application/json"
   };
     
-    // said this was not valid JSON
- var q = 'mutation userLogin { userLogin(input: {userName: "kthomas@veritone.com" password: "Techfish18!"}) {token}}';
+    // works
+  var q = 'mutation userLogin { userLogin(input: {userName: "kthomas@veritone.com" password: "xxxxxxx"}) {token}}';
     
   var oneLineQuery = myQuery.replace( /\n/g,"" );
-  var queryJSON = { query: q /* oneLineQuery */ };
+  var queryJSON = { query:  oneLineQuery };
     
   return fetch(API_ENDPOINT, { method: 'POST', headers: theHeaders, body: JSON.stringify( queryJSON ) } )
     .then(response => response.json())
