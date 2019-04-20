@@ -31,20 +31,11 @@ exports.handler =  function(event, context, callback) {
     else if (event.httpMethod == "GET") {
         token = event.queryStringParameters.token;
     } // Disallow other verbs
-    else {
-        return {
-            statusCode: 405,
-            body: "Method Not Allowed " + JSON.stringify(event, null, 2)
-        };
-    }
 
     var theHeaders = {
         "Authorization": "Bearer " + params.token,
         "Content-Type": "application/json"
     };
-
-    // works if credentials are real
-    // var q = 'mutation userLogin { userLogin(input: {userName: "xxxxxx@veritone.com" password: "xxxxxxx"}) {token}}';
 
     // groom the query!
     var oneLineQuery = myQuery.replace(/\n/g, "").replace(/"/g, '\"');
