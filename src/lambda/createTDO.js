@@ -22,18 +22,6 @@ exports.handler =  function(event, context, callback) {
 
     var params = null;
     var token = null;
-
-    // DEBUG
-    var t = (event.httpMethod == "GET") ? querystring.parse(event.queryStringParameters) : querystring.parse(event.body);
-    
-    /* DEBUG
-    callback(null,  JSON.stringify({
-            statusCode: 405,
-            body: "Method Not Allowed " + "\nTOKEN " + t + "\n" + JSON.stringify(event, null, 2)
-        }) );
-    
-    */
-    
     
     //Check for POST
     if (event.httpMethod == "POST") {
@@ -41,8 +29,7 @@ exports.handler =  function(event, context, callback) {
         token = params.token;
     } // Check for GET
     else if (event.httpMethod == "GET") {
-        params = querystring.parse(event.queryStringParameters);
-        token = params.token;
+        token = event.queryStringParameters.token;
     } // Disallow other verbs
     else {
         return {
