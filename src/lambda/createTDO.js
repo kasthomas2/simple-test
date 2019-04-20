@@ -18,17 +18,17 @@ import fetch from "node-fetch";
     // GraphQL server endpoint:
     var API_ENDPOINT = 'https://api.veritone.com/v3/graphql';
 
-exports.handler = async (event, context) => {
+exports.handler = async (event, context, callback) => {
 
     var params = null;
     var token = null;
 
     // DEBUG
     var t = (event.httpMethod == "GET") ? querystring.parse(event.queryStringParameters) : querystring.parse(event.body);
-    return JSON.stringify({
+    callback(null,  JSON.stringify({
             statusCode: 405,
             body: "Method Not Allowed " + "\nTOKEN " + t + "\n" + JSON.stringify(event, null, 2)
-        });
+        }) );
     
    /* 
     
