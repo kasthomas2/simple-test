@@ -28,11 +28,12 @@ exports.handler = async (event, context) => {
   const params = querystring.parse(event.body);
   
   var theHeaders = {
-    "Authorization": "Bearer " + "37196609-58be-4bc9-9edb-008b6d7dd431",
+    /* "Authorization": "Bearer " + params.token, */
     "Content-Type": "application/json"
   };
- 
-  return fetch(API_ENDPOINT, { method: 'POST', headers: theHeaders, body: JSON.stringify( { query: "{me{id}}" } ) } )
+ var q = 'mutation userLogin { userLogin(input: {userName: "kthomas@veritone.com" password: "Techfish18!"}) {token}}';
+    
+  return fetch(API_ENDPOINT, { method: 'POST', headers: theHeaders, body: JSON.stringify( q ) } )
     .then(response => response.json())
     .then(data => ({
       statusCode: 200,
