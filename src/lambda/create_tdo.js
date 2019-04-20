@@ -33,6 +33,11 @@ exports.handler = async (event, context) => {
   
   var url = API_ENDPOINT;
   
+  
+  
+  
+  return params.token;
+  
   return fetch(url, { method: 'POST', headers: myHeaders, body: { "query": myQuery } } )
     .then(response => response.json())
     .then(data => ({
