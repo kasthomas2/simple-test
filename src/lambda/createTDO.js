@@ -21,7 +21,7 @@ const API_ENDPOINT = 'https://api.veritone.com/v3/graphql';
 exports.handler = async (event, context) => {
   // Only allow incoming POST
   if (event.httpMethod !== "POST") {
-    return { statusCode: 405, body: "Method Not Allowed" };
+    return { statusCode: 405, body: "Method Not Allowed " + JSON.stringify(event,null,2) };
   }
 
   // Since this is a POST, the token will be in the event body as a query string
