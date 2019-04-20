@@ -2,7 +2,7 @@
 import querystring from "querystring";
 import fetch from "node-fetch";
 
-let myQuery = `mutation {
+var myQuery = `mutation {
   createTDO(
     input: {
       startDateTime: 1548432520,
@@ -16,8 +16,6 @@ let myQuery = `mutation {
 }
  `;
 
-
-
 const API_ENDPOINT = 'https://api.veritone.com/v3/graphql';
 
 exports.handler = async (event, context) => {
@@ -30,11 +28,11 @@ exports.handler = async (event, context) => {
   const params = querystring.parse(event.body);
   
   var theHeaders = {
-    /* "Authorization": "Bearer " + params.token, */
+    "Authorization": "Bearer " + params.token, 
     "Content-Type": "application/json;charset=utf-8"
   };
     
-    //said this was not vali JSON
+    // said this was not valid JSON
  var q = 'mutation userLogin { userLogin(input: {userName: "kthomas@veritone.com" password: "Techfish18!"}) {token}}';
     
   var oneLineQuery = myQuery.replace( /\n/g,"" );
