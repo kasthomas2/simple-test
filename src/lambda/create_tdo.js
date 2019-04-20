@@ -15,7 +15,7 @@ let myQuery = `mutation {
 }
  `;
 
-var myJsonRequest = {"query":"{me {\n  id\n}}\n","variables":null,"operationName":null};
+var myJsonRequest = {"query":"{me{id}}"};
 
 const API_ENDPOINT = 'https://api.veritone.com/v3/graphql';
 
@@ -35,7 +35,7 @@ exports.handler = async (event, context) => {
   
   var url = API_ENDPOINT;
  
-  return fetch(url, { method: 'POST', headers: myHeaders, body: JSON.stringify(myJsonRequest) } )
+  return fetch(url, { method: 'POST', headers: myHeaders, body: myJsonRequest} )
     .then(response => response.json())
     .then(data => ({
       statusCode: 200,
