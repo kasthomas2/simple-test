@@ -15,7 +15,7 @@ let myQuery = `mutation {
 }
  `;
 
-var myJsonRequest = { "query": myQuery };
+var myJsonRequest = { "query": "{me{}}" };
 
 const API_ENDPOINT = 'https://api.veritone.com/v3/graphql';
 
