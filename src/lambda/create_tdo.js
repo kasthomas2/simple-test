@@ -33,12 +33,12 @@ exports.handler = async (event, context) => {
   
   var url = API_ENDPOINT;
   
-  return fetch(url, { method: 'POST', headers: myHeaders, body: { query: myQuery } } )
+  return fetch(url, { method: 'POST', headers: myHeaders, body: { "query": myQuery } } )
     .then(response => response.json())
     .then(data => ({
       statusCode: 200,
       headers: {"content-type": "application/json"},
       body: data
     }))
-    .catch(error => ({ statusCode: 422, body: String(error) + params.token }));
+    .catch(error => ({ statusCode: 422, body: String(error) }));
 };
