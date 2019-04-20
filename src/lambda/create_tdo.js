@@ -1,12 +1,5 @@
 import querystring from "querystring";
 import fetch from "node-fetch";
-import FormData from "form-data";
-
-var formData  = new FormData();
-
-
-    formData.append("query", "{me{id}}");
-  
 
 let myQuery = `mutation {
   createTDO(
@@ -36,13 +29,15 @@ exports.handler = async (event, context) => {
   const params = querystring.parse(event.body);
   
   var myHeaders = {
-    "Authorization": "Bearer " + params.token    /*,
+    "Authorization": "Bearer " + params.token,
+     
+      /*,
     "Content-Type": "application/json" */
   };
   
   var url = API_ENDPOINT;
  
-  return fetch(url, { method: 'POST', headers: myHeaders, body: formData } )
+  return fetch(url, { method: 'POST', headers: myHeaders, body: myJsonRequest } )
     .then(response => response.json())
     .then(data => ({
       statusCode: 200,
