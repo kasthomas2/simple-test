@@ -79,7 +79,7 @@ exports.handler =  function(event, context, callback) {
            
             "Access-Control-Allow-Credentials": true 
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify(data) + " \nparams.token: " + params.token
     })).catch(error => ({
         statusCode: 422,
         body: String(error)
