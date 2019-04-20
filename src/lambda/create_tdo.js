@@ -1,3 +1,4 @@
+    
 import querystring from "querystring";
 import fetch from "node-fetch";
 
@@ -26,21 +27,17 @@ exports.handler = async (event, context) => {
   // Since this is a POST, the token will be in the event body as a query string
   const params = querystring.parse(event.body);
   
-  var myHeaders = {
+  let myHeaders = {
     "Authorization": "Bearer " + params.token,
-    "Content-Type": "application/json" 
+    "Content-Type": "application/json"
   };
   
   var url = API_ENDPOINT;
- 
-  var myJsonRequest = {query: "{me{id}}"};
   
-  return fetch(url, { 
-        method: 'POST', 
-        headers: myHeaders, 
-        body: "{\"query\":\"{me{id}}\"}" 
-    } 
-    ).then(response => response.json())
+  var q = JSON.stringify( { "query": myQuery } );
+ 
+  return fetch(url, { method: 'POST', headers: myHeaders, body: q } )
+    .then(response => response.json())
     .then(data => ({
       statusCode: 200,
       headers: {"content-type": "text/plain" /* "application/json" */},
