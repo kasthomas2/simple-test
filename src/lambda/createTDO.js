@@ -25,17 +25,15 @@ exports.handler =  function(event, context, callback) {
 
     // DEBUG
     var t = (event.httpMethod == "GET") ? querystring.parse(event.queryStringParameters) : querystring.parse(event.body);
+    
+    /* DEBUG
     callback(null,  JSON.stringify({
             statusCode: 405,
             body: "Method Not Allowed " + "\nTOKEN " + t + "\n" + JSON.stringify(event, null, 2)
         }) );
-    }; // end of lambda
-
-
-
-
-
-   /* 
+    
+    */
+    
     
     //Check for POST
     if (event.httpMethod == "POST") {
@@ -86,5 +84,5 @@ exports.handler =  function(event, context, callback) {
         statusCode: 422,
         body: String(error)
     }));
-*/
+}; // end of lambda
 
