@@ -55,7 +55,7 @@ exports.handler =  function(event, context) {
             "Access-Control-Allow-Origin": "*", 
             "Access-Control-Allow-Credentials": true 
         },
-        body:  data /* JSON.stringify( data ) */
+        body:  JSON.stringify( data ) 
     })).catch(error => ({
         statusCode: 422,
         body: String(error)
