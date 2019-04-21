@@ -60,8 +60,8 @@ exports.handler =  function(event, context) {
             "Access-Control-Allow-Credentials": true 
         },
         body: /* JSON.stringify( data ) */ JSON.stringify({ eventbody:event.body,
-                     typeofEventBody: (typeof event.body),
-                     tokenInBody: ('token' in event.body)
+                     typeofEventBody: (typeof event.body)
+                    
                                                           })
     })).catch(error => ({
         statusCode: 422,
