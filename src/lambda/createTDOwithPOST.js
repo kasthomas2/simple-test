@@ -28,10 +28,10 @@ exports.handler =  function(event, context) {
     var token;
     
     if ( event.httpMethod == "POST" ) {
-        if ( !event.body )
+     /*   if ( !event.body )
                return { statusCode: 405, body: "Empty event body." };
-        const params = querystring.parse(event.body);
-        token = params.token;
+        const params = querystring.parse(event.body); */
+        token = event.body.token;
     }
     else
         token = event.queryStringParameters.token;
@@ -59,7 +59,7 @@ exports.handler =  function(event, context) {
             "Access-Control-Allow-Origin": "*", 
             "Access-Control-Allow-Credentials": true 
         },
-        body: JSON.stringify(event.body)
+        body: JSON.stringify( data )  /* JSON.stringify(event.body.token) */
     })).catch(error => ({
         statusCode: 422,
         body: String(error)
