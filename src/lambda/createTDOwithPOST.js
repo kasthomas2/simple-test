@@ -28,8 +28,7 @@ exports.handler =  function(event, context) {
     var token;
     
     if ( event.httpMethod == "POST" ) 
-        token = event.body.token;
-    //    token = JSON.parse(event.body).token;
+        token = JSON.parse(event.body).token;
     else
         token = event.queryStringParameters.token;
 
