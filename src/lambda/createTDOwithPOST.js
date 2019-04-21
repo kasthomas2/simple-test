@@ -28,6 +28,8 @@ exports.handler =  function(event, context) {
     var token;
     
     if ( event.httpMethod == "POST" ) {
+        if ( !event.body )
+               return { statusCode: 405, body: "Empty event body." };
         const params = querystring.parse(event.body);
         token = params.token;
     }
