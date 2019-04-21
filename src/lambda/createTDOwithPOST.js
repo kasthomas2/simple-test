@@ -51,7 +51,7 @@ exports.handler =  function(event, context) {
     }).then(response => response.json()).then(data => ({
         statusCode: 200,
         headers: {
-            "Content-Type": "text/plain",
+            "Content-Type": "application/json",
             "Access-Control-Allow-Origin": "*", 
             "Access-Control-Allow-Credentials": true 
         },
