@@ -25,9 +25,14 @@ exports.handler =  function(event, context) {
         return { statusCode: 405, body: "Method Not Allowed" };
     } 
     
-    var token = event.httpMethod == "POST" ?
-        event.body.token :
-        event.queryStringParameters.token;
+    var token;
+    
+    if ( event.httpMethod == "POST" ) {
+        const params = querystring.parse(event.body);
+        token = params.token;
+    }
+    else
+        token = event.queryStringParameters.token;
 
     var theHeaders = {
         "Authorization": "Bearer " + token,
