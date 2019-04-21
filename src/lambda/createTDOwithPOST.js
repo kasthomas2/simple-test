@@ -26,7 +26,7 @@ exports.handler =  function(event, context) {
     } 
     
     var token = event.httpMethod == "POST" ?
-        querystring.parse(event.body).token :
+        event.body.token :
         event.queryStringParameters.token;
 
     var theHeaders = {
