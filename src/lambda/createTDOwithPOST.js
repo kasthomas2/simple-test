@@ -62,7 +62,7 @@ exports.handler =  function(event, context) {
         body: /* JSON.stringify( data ) */ JSON.stringify({ eventbody:event.body,
                      typeofEventBody: (typeof event.body),
                      tokenInBody: ('token' in event.body)
-                                                          }); 
+                                                          })
     })).catch(error => ({
         statusCode: 422,
         body: String(error)
