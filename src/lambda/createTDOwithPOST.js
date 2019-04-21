@@ -44,7 +44,7 @@ exports.handler =  function(event, context) {
     return fetch(API_ENDPOINT, {
         method: 'POST',
         headers: theHeaders,
-        body: JSON.stringify(queryJSON) + "\n\n" + JSON.stringify(event,null,2)
+        body: JSON.stringify(queryJSON) 
     }).then(response => response.json()).then(data => ({
         statusCode: 200,
         headers: {
