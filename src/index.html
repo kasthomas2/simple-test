@@ -7,68 +7,17 @@
     <link href="/styles.css" rel="stylesheet">
     <script src="login.js"></script>
     
-    <!-- script>
-      
-      let API_ENDPOINT = "https://api.veritone.com/v3/graphql";
-      
-      function showMessage( msg ) {
-        var messageNode = document.querySelector("#message");
-        messageNode.innerHTML = msg;
-      }
-      
-      function login() {
-        var username = document.querySelector("#username").value;
-        var pw = document.querySelector("#pw").value;     
-        loginAndGetToken( username, pw );
-      }
-      
-      function loginAndGetToken( username, pw ) {
-
-        var q = 'mutation userLogin { userLogin(input: {userName: "' + username + '" password: "' + pw + '"}) {token}}';
-
-        fetch( API_ENDPOINT, {
-          body: JSON.stringify({
-              "query": q
-          }),
-          headers: {
-              "Content-Type": "application/json"
-          },
-          method: "POST"
-      }).then(function(response) {
-
-          if (!response.ok) {
-              alert( "Oops. We got a " + response.status);
-              throw new Error("HTTP error, status = " + response.status);
-          }
-
-          return response.json();
-    
-      }).then(json=>{
-              if ( !json.data.userLogin ) {
-                alert("That log-in didn't work.");
-                return;
-              }
-              var token = json.data.userLogin.token;
-              console.log(JSON.stringify(json));
-              showMessage("Successful log-in!<br/>Your token is: " + token);
-          });
-      } // loginAndGetToken()
-      
-    </script -->
-    
   </head>
   <body>
     <h1>Log-In</h1>   
 
-     <p id="message">First we need to log in to the system. Enter your Veritone Developer credentials below. </p> 
-      
+     <p id="message">First we need to log in to the system. Enter your Veritone Developer credentials below. </p>       
      <p>
           <label>User Name<br/><input id="username" type="text" name="username"></label>
      </p>
      <p>
           <label>Password<br/><input id="pw" type="text" name="pw"></label>
      </p>
- 
      <p><button onclick="login()">Log in</button></p>    
 
      <script src="https://cdn.jsdelivr.net/npm/prismjs@1.14.0/prism.min.js"></script>
