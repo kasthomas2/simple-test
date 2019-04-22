@@ -1,3 +1,4 @@
+
       let API_ENDPOINT = "https://api.veritone.com/v3/graphql";
       
       var _token = null;
@@ -42,3 +43,5 @@
               showMessage("Successful log-in!<br/>Your token is: " + _token);
           });
       } // loginAndGetToken()
+
+
