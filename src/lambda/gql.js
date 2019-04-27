@@ -19,7 +19,7 @@ exports.handler =  function(event, context) {
     }
     else {
         token = event.queryStringParameters.token;
-        query = event.queryStringParameters.query;
+        query = decodeURI(event.queryStringParameters.query);
     }
   
     var theHeaders = {
