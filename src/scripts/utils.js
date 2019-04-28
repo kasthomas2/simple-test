@@ -44,7 +44,8 @@ function loginAndGetToken(username, pw) {
         }
         _token = json.data.userLogin.token;
         console.log(JSON.stringify(json));
-        showToken("Successful log-in Your token is: " + _token);
+        showToken("Successful log-in! Your token is: <b>" + _token + "</b>");
+        showSnackbar("Looking good. Your token is shown above.")
     }
     );
 }
