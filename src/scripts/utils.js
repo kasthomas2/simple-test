@@ -2,19 +2,31 @@
 let API_ENDPOINT = "https://api.veritone.com/v3/graphql";
 
 var _token = null;
+var _slackURL = null;
 
 // =================================================================
 
-// Utility -- use showToken() only to show the token, 
+// Utility -- use showMsg() only to show the token, 
 // use showSnackbar() otherwise
-function showToken(msg) {
-    var messageNode = document.querySelector("#message");
+function showMsg(msg, id) {
+    var messageNode = document.querySelector( id );
     messageNode.innerHTML = msg;
+}
+
+function setSlackURL() {
+    var url = document.querySelector("#slackWebhook").value;
+    _slackURL = url; // TODO: Add test button
+    showMsg("Slack URL set as: <b>" + _slackURL + "</b>", "#slackMessage" );
+    showSnackbar("Slack URL set!");
 }
 
 function login() {
     var username = document.querySelector("#username").value;
     var pw = document.querySelector("#pw").value;
+    if (username.length < 6 || pw.length < 2) {
+        showSnackbar("That doesn't look right. Try again.", true );
+        return;
+    }
     loginAndGetToken(username, pw);
 }
 
@@ -44,8 +56,8 @@ function loginAndGetToken(username, pw) {
         }
         _token = json.data.userLogin.token;
         console.log(JSON.stringify(json));
-        showToken("Successful log-in! Your token is: <b>" + _token + "</b>");
-        showSnackbar("Looking good. Your token is shown above.")
+        showMsg("Successful log-in! Your token is: <b>" + _token + "</b>", "#message" );
+        showSnackbar("Looks good. Your token is shown above.")
     }
     );
 }
