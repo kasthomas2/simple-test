@@ -64,8 +64,8 @@ async function getTDOs() {
 }
 
 // get TDOs and create picker
-function handleTDOButton() {
-    var json = getTDOs();
+async function handleTDOButton() {
+    var json = await getTDOs();
     if (!json) return;
     var records = json.data.temporalDataObjects.records;
     createPicker( "#tdoZone", records );
