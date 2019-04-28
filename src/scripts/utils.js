@@ -78,7 +78,7 @@ function createPicker( selector, arrayOfJSONobjects ) {
     if (!arrayOfJSONobjects || arrayOfJSONobjects.length == 0)
         return;
     
-    var html = "<select>";
+    var html = '<select onchange="handlePickerChange(this.event)">';
     var ar = [];
     var markup = null;
     
@@ -90,6 +90,7 @@ function createPicker( selector, arrayOfJSONobjects ) {
     });
     html += ar.join("") + "</select>";
     var node = document.querySelector( selector );
+    node.innerHTML = "";
     node.innerHTML = node.innerHTML + html;
 }
 
