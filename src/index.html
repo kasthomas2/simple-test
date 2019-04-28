@@ -7,7 +7,7 @@
     
   </head>
   <body>
-    <h1>Log-In</h1>   
+    <h1 id="top">Log-In</h1>   
 
      <p id="message">First we need to log in to the system. Enter your Veritone Developer credentials below. 
      </p>       
@@ -17,11 +17,28 @@
      </p>
      <p><button onclick="login()">Log in</button></p> 
     
-    <div id="snackbar"></div> <!-- This will serve a toast message -->
+    
+    <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+    <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+    
+    
+    <h1 id="slack">Receive Slack Notifications?</h1>
+     <p id="slackMessage">If you have a Slack webhook, enter it below to receive Slack messages after each action. 
+     </p>       
+     <p>          <label>Slack Webhook URL:<br/><input id="slackWebhook" type="text" name="slackWebhook"></label>
+     </p>
+     <p><button onclick="setSlackURL()">Apply</button></p> 
+    
+     <div id="snackbar"></div> <!-- This is hidden. It will serve toast messages -->
 
+    
+    
+    <div class="footer"><b>
+        <a href="#top">Log-In</a> | 
+        <a href="#slack">Slack Setup</a>
+    </div>
      
      <script src="/scripts/utils.js"><script>
-     
      <script src="https://cdn.jsdelivr.net/npm/prismjs@1.14.0/prism.min.js"></script>
      <script src="main.js"></script> 
      
