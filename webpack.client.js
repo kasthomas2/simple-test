@@ -2,6 +2,16 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
+  module: {
+    loaders: [
+      {
+        test: /\.js$/,
+        loaders: [
+          'script-loader'       
+        ]
+      }
+    ]
+  },
   entry: {
     main: "./src/index.js"
   },
