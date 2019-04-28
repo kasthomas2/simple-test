@@ -90,8 +90,9 @@ function createPicker( selector, arrayOfJSONobjects ) {
     });
     html += ar.join("") + "</select>";
     var node = document.querySelector( selector );
-    node.innerHTML = html;
+    node.innerHTML = node.innerHTML + html;
 }
+
 function setSlackURL() {
     var url = document.querySelector("#slackWebhook").value;
     if ( url.indexOf("https://hooks.slack.com") == -1 || url.length < 60 ) {
