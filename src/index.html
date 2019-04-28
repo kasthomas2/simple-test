@@ -7,8 +7,7 @@
     
   </head>
   <body>
-    <h1 id="top">Log-In</h1>   
-
+    <h1 id="top">Log-In</h1>  
      <p id="message">First we need to log in to the system. Enter your Veritone Developer credentials below. 
      </p>       
      <p>          <label>User Name<br/><input id="username" type="text" name="username"></label>
@@ -29,19 +28,30 @@
      </p>
      <p><button onclick="setSlackURL()">Apply</button></p> 
     
-     <div id="snackbar"></div> <!-- This is hidden. It will serve toast messages -->
-
-     
     <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
     <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
     
+        
     
     
+    
+    <h1 id="tdo">Create or View TDOs</h1>
+     <p>Click the button to see if you have any TDOs. 
+     </p>       
+     <p><button onclick="getTDOs()">Get TDOs</button></p> 
+     <div id="tdoZone"><div>
+       
+    <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+    <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+    
+    <!-- --------------------------- FOOTER ----------------------------- -->
     <div class="footer"><b>
-        <a href="#top">Log-In</a> | 
-        <a href="#slack">Slack Setup</a>
+        <a href="#top" title="Click to go back to the top">Log-In</a> &nbsp;|&nbsp; 
+        <a href="#slack" title="Go to Slack Setup">Slack Setup</a> &nbsp;|&nbsp; 
+        <a href="#tdo" title="Manage TDOs">TDOs</a>
     </div>
-     
+     <div id="snackbar"></div> <!-- This is hidden. It will serve toast messages -->
+      
      <script src="/scripts/utils.js"><script>
      <script src="https://cdn.jsdelivr.net/npm/prismjs@1.14.0/prism.min.js"></script>
      <script src="main.js"></script> 
