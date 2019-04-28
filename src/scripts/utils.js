@@ -16,7 +16,7 @@ function showMsg(msg, id) {
 function setSlackURL() {
     var url = document.querySelector("#slackWebhook").value;
     _slackURL = url; // TODO: Add test button
-    showMsg("Slack URL set as: <b>" + _slackURL + "</b>", "#slackMessage" );
+    showMsg("Slack URL set as: <br/><b>" + _slackURL + "</b>", "#slackMessage" );
     showSnackbar("Slack URL set!");
 }
 
