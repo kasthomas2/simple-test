@@ -14,6 +14,84 @@ function showMsg(msg, id) {
     messageNode.innerHTML = msg;
 }
 
+// Run a graphQL query via the lambda using GET. 
+// Returns serialized JSON (string).
+async function runQueryGET(q, token) {
+
+    let LAMBDA_ENDPOINT = "https://simple-test.netlify.com/.netlify/functions/gql?"
+    var url = LAMBDA_ENDPOINT + "token=" + token + "&query=" + encodeURI(q);
+
+    return fetch(url).then(function(response) {
+        return response.text();
+    });
+}
+
+async function getTDOs() {
+
+    if (!_token) {
+        showSnackbar("Looks like you need to log in first.", true)
+        return;
+    }
+
+    var q = `query {
+      temporalDataObjects {
+        count
+        records{
+          id
+        }
+      }
+    }`;
+
+    var data = null;
+    var json = null;
+    
+    try {
+        data = await runQueryGET(q, _token);
+        if ( data && typeof data == 'string') {
+            json = JSON.parse( data );
+            if ('errors' in json) {
+                showSnackbar( "Couldn't get TDOs. Check console.", true);
+                console.log(JSON.stringify( json ));
+                json = null;
+            }
+        }
+    }
+    catch(e) { 
+        console.log("Exception in runQuery(): " + e.toString());
+        showSnackbar("Oops, ajax exception. Check console.", true); 
+    }
+    return json;
+}
+
+// get TDOs and create picker
+function handleTDOButton() {
+    var json = getTDOs();
+    if (!json) return;
+    var records = json.data.temporalDataObjects.records;
+    createPicker( "#tdoZone", records );
+    showMsg( records.length + " TDOs total", "#tdoZoneCode" );
+}
+
+// Pass this a DOM selector, and json.data.temporalDataObjects.records
+function createPicker( selector, arrayOfJSONobjects ) {
+    
+    if (!arrayOfJSONobjects || arrayOfJSONobjects.length == 0)
+        return;
+    
+    var html = "<select>";
+    var ar = [];
+    var markup = null;
+    
+    arrayOfJSONobjects.forEach( item=> {
+        var key = Object.keys(item)[0];
+        var value = item[key];
+        var markup = "<option value=\"" + value + "\">" + value + "</option>";
+        ar.push( markup );
+    });
+    html += ar.join("") + "</select>";
+    var node = document.querySelector( selector );
+    node.innerHTML = html;
+}
 function setSlackURL() {
     var url = document.querySelector("#slackWebhook").value;
     if ( url.indexOf("https://hooks.slack.com") == -1 || url.length < 60 ) {
