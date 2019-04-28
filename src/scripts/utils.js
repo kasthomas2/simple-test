@@ -72,13 +72,31 @@ async function handleTDOButton() {
     showMsg( records.length + " TDOs total", "#tdoZoneCode" );
 }
 
+// handle a picker change (TDO list)
+async function handlePickerChange( e ) {
+   var q = `query {
+            temporalDataObject(id:theID){
+                jsondata
+            }  
+        }
+    }`;
+
+    var picker = document.querySelector("#TDOpicker");
+    var query = q.replace( /theID/, "\"" + picker.value + "\"");
+    var json = await runQueryGET(query,_token);
+    if (json && typeof json == 'string') {
+        json = JSON.parse(json);
+        showMsg( JSON.stringify(json,null,3 ), "#tdoZoneCode" );
+    }
+}
+
 // Pass this a DOM selector, and json.data.temporalDataObjects.records
 function createPicker( selector, arrayOfJSONobjects ) {
     
     if (!arrayOfJSONobjects || arrayOfJSONobjects.length == 0)
         return;
     
-    var html = '<select onchange="handlePickerChange(this.event)">';
+    var html = '<select id="TDOpicker" onchange="handlePickerChange(this.event)">';
     var ar = [];
     var markup = null;
     
