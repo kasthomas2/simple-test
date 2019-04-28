@@ -1,13 +1,14 @@
 // GLOBALS
 let API_ENDPOINT = "https://api.veritone.com/v3/graphql";
-
+let SLACK_GREETING = "You look good in Slacks!";
+let TEXT_VALIDATION_FLUNK = "Yow, that doesn't look right. Try again.";
 var _token = null;
 var _slackURL = null;
 
 // =================================================================
 
-// Utility -- use showMsg() only to show the token, 
-// use showSnackbar() otherwise
+// Utility -- use showMsg() only to show persistent screen messages; 
+// use showSnackbar() otherwise.
 function showMsg(msg, id) {
     var messageNode = document.querySelector( id );
     messageNode.innerHTML = msg;
@@ -15,16 +16,37 @@ function showMsg(msg, id) {
 
 function setSlackURL() {
     var url = document.querySelector("#slackWebhook").value;
-    _slackURL = url; // TODO: Add test button
+    if ( url.indexOf("https://hooks.slack.com") == -1 || url.length < 60 ) {
+        showSnackbar( TEXT_VALIDATION_FLUNK, true );
+        return;
+    }
+    _slackURL = url; 
     showMsg("Slack URL set as: <br/><b>" + _slackURL + "</b>", "#slackMessage" );
-    showSnackbar("Slack URL set!");
+    sendSlackNotification( _slackURL, SLACK_GREETING );
+    showSnackbar("URL set! Check your Slack channel!");
+}
+
+function sendSlackNotification(slackWebhook,msg) {
+    
+    if (!slackWebhook)
+        return;
+    
+    return fetch(slackWebhook, {
+        body: JSON.stringify({
+            "text": msg
+        }),
+        method: "POST"
+    }).then( r=>{
+        console.log("Slack HTTP status = " + r.status + " for " + msg);      
+        return r; 
+    });
 }
 
 function login() {
     var username = document.querySelector("#username").value;
     var pw = document.querySelector("#pw").value;
     if (username.length < 6 || pw.length < 2) {
-        showSnackbar("That doesn't look right. Try again.", true );
+        showSnackbar( TEXT_VALIDATION_FLUNK, true );
         return;
     }
     loginAndGetToken(username, pw);
@@ -51,7 +73,7 @@ function loginAndGetToken(username, pw) {
 
     }).then(json=>{
         if (!json.data.userLogin) {
-            showSnackbar("That log-in didn't work.", true);
+            showSnackbar("Dang. That log-in didn't work.", true);
             return;
         }
         _token = json.data.userLogin.token;
