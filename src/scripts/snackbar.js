@@ -1,5 +1,5 @@
 /*
-To use this, just put an empty <div class="snackbar"></div>
+To use this, just put an empty <div id="snackbar"></div>
 in the page somewhere, include the .css (see styles.css),
 and call this function to pop the toast. 
 
