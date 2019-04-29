@@ -75,10 +75,6 @@ async function handleTDOButton() {
 // handle a picker change (TDO list)
 async function handlePickerChange( e ) {
     
-    // Make the Delete TDO button visible
-    var deleteTDOButton = document.querySelector("#deleteTDObutton");
-    deleteTDOButton.style.visibility = "visible";
-    
     // This is the query to get a single TDO
    var q = `query {
             temporalDataObject(id:theID){
@@ -94,6 +90,9 @@ async function handlePickerChange( e ) {
         json = JSON.parse(json);
         showMsg( "", "#tdoZoneCode" ); // erase the old msg
         showMsg( JSON.stringify(json,null,3 ), "#tdoZoneCode" );
+            // Make the Delete TDO button visible
+        var deleteTDOButton = document.querySelector("#deleteTDObutton");
+        deleteTDOButton.style.visibility = "visible";
     }
 }
 
@@ -101,7 +100,7 @@ async function handleDeleteTDO() {
     
     // This is the mutation to delete a TDO
     var mutation_delete = `mutation {
-            deleteTDO(id:theID)
+            deleteTDO(id:theID) { id }
     }`;
 
     var picker = document.querySelector("#TDOpicker");
