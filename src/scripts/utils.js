@@ -112,6 +112,7 @@ async function handleDeleteTDO() {
         showMsg( "", "#tdoZoneCode" ); // erase the old msg
         showMsg( JSON.stringify(json,null,3 ), "#tdoZoneCode" );
     }
+    location.href = "https://simple-test.netlify.com/#tdo"; // go back to start of section
 }
 
 // Pass this a DOM selector, and json.data.temporalDataObjects.records
