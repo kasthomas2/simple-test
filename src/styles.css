@@ -125,6 +125,12 @@ button,
   transform: translateY(0);
   transition: all .15s ease;
 }
+.smallbutton {
+  font-size: .75em;
+  font-weight: 400;
+  height: 2em;
+  line-height: 2;
+}
 
 button:focus,
 button:hover {
