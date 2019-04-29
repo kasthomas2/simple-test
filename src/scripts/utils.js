@@ -107,7 +107,7 @@ async function handleDeleteTDO() {
     var picker = document.querySelector("#TDOpicker");
     var mutation_delete = mutation_delete.replace( /theID/, '"'+ picker.value + '"');
     
-    var json = await runQueryGET(query,_token);
+    var json = await runQueryGET(mutation_delete,_token);
     if (json && typeof json == 'string') {
         json = JSON.parse(json);
         showMsg( "", "#tdoZoneCode" ); // erase the old msg
