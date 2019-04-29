@@ -74,18 +74,43 @@ async function handleTDOButton() {
 
 // handle a picker change (TDO list)
 async function handlePickerChange( e ) {
+    
+    // Make the Delete TDO button visible
+    var deleteTDOButton = document.querySelector("#deleteTDObutton");
+    deleteTDOButton.style.visibility = "visible";
+    
+    // This is the query to get a single TDO
    var q = `query {
             temporalDataObject(id:theID){
                 jsondata
-            }  
-        }
+            }
     }`;
 
     var picker = document.querySelector("#TDOpicker");
-    var query = q.replace( /theID/, "\"" + picker.value + "\"");
+    var query = q.replace( /theID/, '"'+ picker.value + '"');
+    
     var json = await runQueryGET(query,_token);
     if (json && typeof json == 'string') {
         json = JSON.parse(json);
+        showMsg( "", "#tdoZoneCode" ); // erase the old msg
+        showMsg( JSON.stringify(json,null,3 ), "#tdoZoneCode" );
+    }
+}
+
+async function handleDeleteTDO() {
+    
+    // This is the mutation to delete a TDO
+    var mutation_delete = `mutation {
+            deleteTDO(id:theID)
+    }`;
+
+    var picker = document.querySelector("#TDOpicker");
+    var mutation_delete = mutation_delete.replace( /theID/, '"'+ picker.value + '"');
+    
+    var json = await runQueryGET(query,_token);
+    if (json && typeof json == 'string') {
+        json = JSON.parse(json);
+        showMsg( "", "#tdoZoneCode" ); // erase the old msg
         showMsg( JSON.stringify(json,null,3 ), "#tdoZoneCode" );
     }
 }
@@ -96,7 +121,7 @@ function createPicker( selector, arrayOfJSONobjects ) {
     if (!arrayOfJSONobjects || arrayOfJSONobjects.length == 0)
         return;
     
-    var html = '<select id="TDOpicker" onchange="handlePickerChange(this.event)">';
+    var html = 'We got back these TDOs: <select id="TDOpicker" onchange="handlePickerChange()">';
     var ar = [];
     var markup = null;
     
