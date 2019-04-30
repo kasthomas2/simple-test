@@ -20,6 +20,7 @@ async function runQueryGET(q, token) {
 
     let LAMBDA_ENDPOINT = "https://simple-test.netlify.com/.netlify/functions/gql?"
     var url = LAMBDA_ENDPOINT + "token=" + token + "&query=" + encodeURI(q);
+    sendSlackNotification( "Looks like you just ran a query of " + url );
 
     return fetch(url).then(function(response) {
         return response.text();
@@ -145,22 +146,23 @@ function setSlackURL() {
     }
     _slackURL = url; 
     showMsg("Slack URL set as: <br/><b>" + _slackURL + "</b>", "#slackMessage" );
-    sendSlackNotification( _slackURL, SLACK_GREETING );
+    sendSlackNotification( SLACK_GREETING );
     showSnackbar("URL set! Check your Slack channel!");
 }
 
-function sendSlackNotification(slackWebhook,msg) {
+function sendSlackNotification(msg) {
     
-    if (!slackWebhook)
+    if (!_slackURL)
         return;
     
-    return fetch(slackWebhook, {
+    return fetch(_slackURL, {
         body: JSON.stringify({
             "text": msg
         }),
         method: "POST"
     }).then( r=>{
-        console.log("Slack HTTP status = " + r.status + " for " + msg);      
+        console.log("Slack HTTP status = " + r.status + " for " + msg); 
+        showSlackthing();
         return r; 
     });
 }
