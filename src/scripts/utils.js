@@ -79,6 +79,7 @@ async function handlePickerChange( e ) {
     // This is the query to get a single TDO
    var q = `query {
             temporalDataObject(id:theID){
+                name
                 jsondata
             }
     }`;
@@ -139,8 +140,9 @@ async function handleCreateTDO() {
     var json = await runQueryGET(mutation_create,_token);
     if (json && typeof json == 'string') {
         json = JSON.parse(json);
+        var comment = 'errors' in json ? "# Error! \n" : "# Looks like you created a TDO!\n";
         showMsg( "", "#tdoZoneCode" ); // erase the old msg
-        showMsg( JSON.stringify(json,null,3 ), "#tdoZoneCode" );
+        showMsg( comment + JSON.stringify(json,null,3 ), "#tdoZoneCode" );
     }
     location.href = "https://simple-test.netlify.com/#tdo"; // go back to start of section
 }
@@ -161,7 +163,7 @@ function createPicker( selector, arrayOfJSONobjects ) {
         var markup = "<option value=\"" + value + "\">" + value + "</option>";
         ar.push( markup );
     });
-    html += ar.join("") + "</select>";
+    html += ar.sort().join("") + "</select>";
     var node = document.querySelector( selector );
     node.innerHTML = "";
     node.innerHTML = node.innerHTML + html;
