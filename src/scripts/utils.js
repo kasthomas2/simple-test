@@ -34,7 +34,7 @@ async function getTDOs() {
     }
 
     var q = `query {
-      temporalDataObjects(limit:1000) {
+      temporalDataObjects(limit:100) {
         count
         records{
           id
