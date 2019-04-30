@@ -116,6 +116,35 @@ async function handleDeleteTDO() {
     location.href = "https://simple-test.netlify.com/#tdo"; // go back to start of section
 }
 
+async function handleCreateTDO() {
+    
+    // get its name
+    var name = prompt( "Give this fine new TDO a name:" );
+    if (!name) return;
+       
+    // This is the mutation to create a TDO
+    var mutation_create = `mutation {createTDO(input:{
+  name:"Some name",
+  startDateTime:"startxxx",
+  stopDateTime:"endxxx"
+}){
+  id
+  name
+} }`;
+
+    mutation_create = mutation_create.replace("Some name",name);
+    mutation_create = mutation_create.replace("startxxx", new Date() );
+    mutation_create = mutation_create.replace("endxxx",new Date( 3600*1000 + (new Date * 1) );
+    
+    var json = await runQueryGET(mutation_create,_token);
+    if (json && typeof json == 'string') {
+        json = JSON.parse(json);
+        showMsg( "", "#tdoZoneCode" ); // erase the old msg
+        showMsg( JSON.stringify(json,null,3 ), "#tdoZoneCode" );
+    }
+    location.href = "https://simple-test.netlify.com/#tdo"; // go back to start of section
+}
+
 // Pass this a DOM selector, and json.data.temporalDataObjects.records
 function createPicker( selector, arrayOfJSONobjects ) {
     
