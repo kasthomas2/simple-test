@@ -233,3 +233,15 @@ function showSnackbar(msg, err) {
         x.style["background-color"] = originalBackgroundColor;
     }, SNACK_DURATION);
 }
+
+function showSlackthing() {
+
+    let DURATION = 3200;
+
+    var x = document.getElementById("slackthing");
+    x.className = "show rotate-center";
+    
+    setTimeout(function() {
+        x.className = x.className.replace("show rotate-center", "");    
+    }, DURATION);
+}
