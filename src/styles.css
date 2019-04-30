@@ -265,14 +265,14 @@ code .token.macro .keyword {
 
 #slackthing {
   visibility: hidden;
-  min-width: 100px;
+  min-width: 70px;
   margin-left: -50px;
   background-color: #fff;
   color: #fff;
   padding: 6px;
   position: fixed;
   z-index: 1;
-  left: 5%;
+  left: 10%;
   bottom: 30px;
 }
 
