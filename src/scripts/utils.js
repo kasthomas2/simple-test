@@ -267,7 +267,7 @@ function showSnackbar(msg, err) {
 
 function showSlackthing() {
 
-    let DURATION = 2500;
+    let DURATION = 2000;
 
     var x = document.getElementById("slackthing");
     x.className = "show rotate-center";
