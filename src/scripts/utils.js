@@ -134,7 +134,7 @@ async function handleCreateTDO() {
 
     mutation_create = mutation_create.replace("Some name",name);
     mutation_create = mutation_create.replace("startxxx", new Date() );
-    mutation_create = mutation_create.replace("endxxx",new Date( 3600*1000 + (new Date * 1) );
+    mutation_create = mutation_create.replace("endxxx",new Date( 3600*1000 + (new Date * 1) ) );
     
     var json = await runQueryGET(mutation_create,_token);
     if (json && typeof json == 'string') {
