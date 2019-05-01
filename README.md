@@ -10,17 +10,17 @@ You should also (optionally) obtain a Slack webhook and paste your webhook URL i
 
 ## What the Demo Demonstrates
 
-- How to send log messages to Slack
 - How to log in to Veritone and get the bearer token
-- How to run GraphQL queries via browser fetch
-- How to delegate GraphQL queries to an AWS Lambda (see src/lambda/gql.js) so you can run your queries as simple GETs against the lambda. (Veritone's API server only accepts POSTs.)
-- Create/read/delete TDOs (Temporal Data Objects).
+- How to send log messages to Slack
+- How to run GraphQL queries via browser `fetch()`
+- How to delegate GraphQL queries to an AWS Lambda (see src/lambda/gql.js) so you can run your queries as simple GETs against the lambda (Veritone's API server only accepts POSTs!)
+- Create/read/delete TDOs (Temporal Data Objects)
 
 Coming soon: Run a transcription job on a video. (And more.)
 
-The demo site is automagically built using Netlify, and Netlify kindly deploys the lambdas to AWS so I don't have to, which is very cool indeed. 
+The demo site is automagically built using Netlify, and Netlify kindly deploys my lambdas to AWS so I don't have to, which is very cool indeed. Note: There are lots of demo lambda scripts under src/lambda. The only one my demo page actually calls is `gql.js`.
 
-All the page scripts are in one file (utils.js) and all the HTML is in index.html, the way nature intended.
+All the page scripts are in one file (/scripts/utils.js) and all the HTML is in index.html, the way nature intended.
 
 Use/steal/copy my code as you wish, but only at your own risk!
 
