@@ -8,6 +8,7 @@
   --textColor: rgba(14, 30, 37, 0.87);
   --borderColor: #e9ebeb;
   --accentColor: #00ad9f;
+  --accentColorRed: #c76900
 }
 
 body {
@@ -131,6 +132,9 @@ button,
   font-weight: 400;
   height: 2em;
   line-height: 2;
+}
+.button-red {
+	background: var(--accentColorRed);
 }
 
 button:focus,
