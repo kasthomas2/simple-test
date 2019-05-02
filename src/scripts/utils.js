@@ -14,15 +14,21 @@ function showMsg(msg, id) {
     messageNode.innerHTML = msg;
 }
 
+function doNotifications(q) {
+    let GRAPHIQL = "https://api.veritone.com/v3/graphiql?";
+    var gqlLink = "<" + GRAPHIQL + "&query=" + encodeURI(q) + "|See it in GraphiQL>"; 
+    var json = "\n```" + q + "```";
+    sendSlackNotification( "Looks like you just ran a query of " + url + "\n" + gqlLink + json);
+}
+
 // Run a graphQL query via the lambda using GET. 
-// Returns serialized JSON (string).
+// Returns serialized JSON (string). 
+// Warning: No try/catch. Wrap it at point of use!
 async function runQueryGET(q, token) {
 
     let LAMBDA_ENDPOINT = "https://simple-test.netlify.com/.netlify/functions/gql?"
     var url = LAMBDA_ENDPOINT + "token=" + token + "&query=" + encodeURI(q);
-    let GRAPHIQL = "https://api.veritone.com/v3/graphiql?";
-    var gqlLink = "<" + GRAPHIQL + "&query=" + encodeURI(q) + "|See it in GraphiQL>"; 
-    sendSlackNotification( "Looks like you just ran a query of " + url + "\n" + gqlLink);
+    doNotifications(q);
 
     return fetch(url).then(function(response) {
         return response.text();
@@ -94,9 +100,10 @@ async function handlePickerChange( e ) {
         json = JSON.parse(json);
         showMsg( "", "#tdoZoneCode" ); // erase the old msg
         showMsg( JSON.stringify(json,null,3 ), "#tdoZoneCode" );
+        
             // Make the Delete TDO button visible
         var deleteTDOButton = document.querySelector("#deleteTDObutton");
-        deleteTDOButton.style.visibility = "visible";
+        deleteTDOButton.style.display = "block";
     }
 }
 
