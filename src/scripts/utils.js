@@ -82,7 +82,7 @@ async function handleTDOButton() {
 }
 
 // handle a picker change (TDO list)
-async function handlePickerChange( e ) {
+async function handlePickerChange( ) {
     
     // This is the query to get a single TDO
    var q = `query {
