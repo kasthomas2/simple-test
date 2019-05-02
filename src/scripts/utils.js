@@ -14,7 +14,7 @@ function showMsg(msg, id) {
     messageNode.innerHTML = msg;
 }
 
-function doNotifications(q) {
+function doNotifications(q,url) {
     let GRAPHIQL = "https://api.veritone.com/v3/graphiql?";
     var gqlLink = "<" + GRAPHIQL + "&query=" + encodeURI(q) + "|See it in GraphiQL>"; 
     var json = "\n```" + q + "```";
@@ -28,7 +28,7 @@ async function runQueryGET(q, token) {
 
     let LAMBDA_ENDPOINT = "https://simple-test.netlify.com/.netlify/functions/gql?"
     var url = LAMBDA_ENDPOINT + "token=" + token + "&query=" + encodeURI(q);
-    doNotifications(q);
+    doNotifications(q,url);
 
     return fetch(url).then(function(response) {
         return response.text();
