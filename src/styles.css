@@ -77,7 +77,7 @@ article h2::before {
 
 ul {
   padding-left: 1.25em;
-  list-style: disc outside;
+/*  list-style: disc outside; */
 }
 
 ol {
