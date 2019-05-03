@@ -13,7 +13,24 @@ function clearScreenLog(selector) {
   document.querySelector(selector).innerHTML = "";
 }
 
+function cancelPoll() { 
+  if (_pollkey) {
+     clearInterval(_pollkey);
+     _totalPollAttempts = 0;
+    showSnackbar("Polling has stopped.");
+  }
+}
 
+async function cancelJob( jobID ) {
+  var q = `mutation {
+  cancelJob(id: "JOB") {
+    id
+  } 
+}'.replace(/JOB/,jobID);
+
+  var data = await runQueryGET(q, _token);
+
+}
 
 async function handleTxButton() {
 
@@ -51,6 +68,12 @@ async function handleTxButton() {
             jobID = json.data.createJob.id;
             logToScreen("\nNow we will poll for completion every 15 sec, a maximum of 50 times.\n", "#txZoneCode");
 
+            var cancelbutton = ` <button 
+             class="smallbutton"
+             onclick="cancelJob(JOB); cancelPoll();">Create New TDO</button>`.replace(/JOB/,jobID);
+
+            logToScreen( cancelbutton, "#txZoneText");
+
             // POLL
             _pollkey = setInterval(()=>{
                 checkTheJob(jobID, engineID)
@@ -70,7 +93,7 @@ async function handleTxButton() {
 async function checkTheJob(jobID, engineID) {
 
   // DEBUG
-  logToScreen("\nEntered checkTheJob().\nPoll Attempts = " + _totalPollAttempts, "#txZoneCode");
+  logToScreen("\nEntered checkTheJob().\nPoll Attempts = " + (_totalPollAttempts+1), "#txZoneCode");
 
 
     var q = `query jobStatus {
@@ -124,9 +147,7 @@ async function checkTheJob(jobID, engineID) {
             if (jobFinished && tasksAllCompleted) {
 
                 logToScreen("\nJob complete, all tasks complete.\n", "#txZoneCode");
-
-                clearInterval( _pollkey );
-                _totalPollAttempts = 0;
+                cancelPoll();
 
                 // Now get the engine's results
                 var q = createEngineResultsQuery(tdoID, engineID);
@@ -141,8 +162,7 @@ async function checkTheJob(jobID, engineID) {
 
             // Timed out? 
             if ( _totalPollAttempts++ >= MAX_POLL_ATTEMPTS ) {
-                clearInterval( _pollkey );
-                _totalPollAttempts = 0;
+                cancelPoll();
                 logToScreen("Stopped polling after MAX_POLL_ATTEMPTS","#txZoneCode");                 
             }
 
