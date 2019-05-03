@@ -69,8 +69,8 @@ async function handleTxButton() {
             logToScreen("\nNow we will poll for completion every 15 sec, a maximum of "+MAX_POLL_ATTEMPTS+" times.\n", "#txZoneCode");
 
             var cancelbutton = ` <button 
-             class="smallbutton"
-             onclick="cancelJob(JOB); cancelPoll();">Create New TDO</button>`.replace(/JOB/,jobID);
+             class="smallbutton button-red"
+             onclick="cancelJob(JOB); cancelPoll();">Cancel Job</button>`.replace(/JOB/,jobID);
 
             logToScreen( cancelbutton, "#txZoneText");
 
