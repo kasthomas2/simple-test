@@ -20,8 +20,9 @@
      <p><button onclick="login()">Log in</button></p> 
     
     <p><ul style="font-size:var(--mediumFontSize)">After you've logged in, check out:
-    <li><a href="#slack" title="Go to Slack Setup">Slack Setup</a> </li>
+    <li><a href="#slack" title="Go to Slack Setup">Slack Setup</a> (get log messages via Slack!)</li>
     <li><a href="#tdo" title="Manage TDOs">Manage TDOs</a></li><br/>
+    <li><a href="#tx" title="Transcribe a Video">Run a Transcription Job</a></li><br/>
     </ul>
     </p>
     
@@ -70,23 +71,35 @@
   
   <!-- Sample video: Veritone Discovery (low rez)
        https://drive.google.com/file/d/13pZixYCAwU_beSdl89EZx_JPMgkgY6Ao/view?usp=sharing -->
+     <h1 id="tdo">Run a Transcription Job</h1>
+     <p>Enter the URI of an .mp4 file (audio or video). <br/>
+       <div style="font-size:var(--smallFontSize);">E.g.: https://drive.google.com/file/d/13pZixYCAwU_beSdl89EZx_JPMgkgY6Ao/view?usp=sharing</div>
+     </p>  
+       <p>          <label>URI:</label><br/><input id="tx_uri" type="text" name="tx_uri">
+     </p>
+     <p><button onclick="handleTxButton()">Transcribe it!</button></p> 
+     <div id="txZone"></div><br/>
+     <pre id="txZoneCode"></pre>
+     <div id="txZoneText"></div>
   
-    <div id="transcriptionZone"></div>
-  
-  
+    <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+    <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+ 
   
   
     
     <!-- --------------------------- FOOTER ----------------------------- -->
-    <div class="footer"><b>
+    <div class="footer">
         <a href="#top" title="Click to go back to the top">Log-In</a> &nbsp;|&nbsp; 
         <a href="#slack" title="Go to Slack Setup">Slack Setup</a> &nbsp;|&nbsp; 
-        <a href="#tdo" title="Manage TDOs">TDOs</a>
+        <a href="#tdo" title="Manage TDOs">TDOs</a> &nbsp;|&nbsp; 
+        <a href="#tx" title="Transcribe a video">Transcribe</a>
     </div>
      <div id="snackbar"></div> <!-- This is hidden. It will serve toast messages -->
      <div id="slackthing"><img style="height:48px;width:48px;" src="./static/slack76.png"/></div><!-- slack icon thing -->
       
-     <script src="/scripts/utils.js"><script>
+     <script src="/scripts/utils.js"></script>
+     <script src="/scripts/aux.js"></script>
      <script src="https://cdn.jsdelivr.net/npm/prismjs@1.14.0/prism.min.js"></script>
      <script src="main.js"></script> 
      
