@@ -186,7 +186,7 @@ function createTheJobQuery(tdoID, engineID, mediaID) {
              url: "MEDIA_URI"
          }
     },{
-      engineId: "ENGINE_ID",
+      engineId: "ENGINE_ID"
     }
     ]
   }) {
