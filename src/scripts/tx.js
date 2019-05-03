@@ -66,7 +66,7 @@ async function handleTxButton() {
             if ('errors'in json) {// TODO bail, handle error
             }
             jobID = json.data.createJob.id;
-            logToScreen("\nNow we will poll for completion every 15 sec, a maximum of 50 times.\n", "#txZoneCode");
+            logToScreen("\nNow we will poll for completion every 15 sec, a maximum of "+MAX_POLL_ATTEMPTS+" times.\n", "#txZoneCode");
 
             var cancelbutton = ` <button 
              class="smallbutton"
