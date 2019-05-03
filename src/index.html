@@ -21,7 +21,7 @@
     
     <p><ul style="font-size:var(--mediumFontSize)">After you've logged in, check out:
     <li><a href="#slack" title="Go to Slack Setup">Slack Setup</a> (get log messages via Slack!)</li>
-    <li><a href="#tdo" title="Manage TDOs">Manage TDOs</a></li><br/>
+    <li><a href="#tdo" title="Manage TDOs">Manage TDOs</a></li>
     <li><a href="#tx" title="Transcribe a Video">Run a Transcription Job</a></li><br/>
     </ul>
     </p>
@@ -71,11 +71,11 @@
   
   <!-- Sample video: Veritone Discovery (low rez)
        https://drive.google.com/file/d/13pZixYCAwU_beSdl89EZx_JPMgkgY6Ao/view?usp=sharing -->
-     <h1 id="tdo">Run a Transcription Job</h1>
+     <h1 id="tx">Run a Transcription Job</h1>
      <p>Enter the URI of an .mp4 file (audio or video). <br/>
        <div style="font-size:var(--smallFontSize);">E.g.: https://drive.google.com/file/d/13pZixYCAwU_beSdl89EZx_JPMgkgY6Ao/view?usp=sharing</div>
      </p>  
-       <p>          <label>URI:</label><br/><input id="tx_uri" type="text" name="tx_uri">
+      <p>          <label>URI:</label><br/><input id="tx_uri" type="text" name="tx_uri">
      </p>
      <p><button onclick="handleTxButton()">Transcribe it!</button></p> 
      <div id="txZone"></div><br/>
