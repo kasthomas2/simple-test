@@ -1,20 +1,76 @@
 _pollkey = null; // Ugh, this is needed for clearInterval()
 _totalPollAttempts = 0;
-//var MAX_POLL_ATTEMPTS = 10;
+var MAX_POLL_ATTEMPTS = 40;
+var POLL_INTERVAL = 15000;
 
 function logToScreen(msg, selector) {
-  var s = selector || "#tdoZoneCode";
+  var s = selector || "#txZoneCode";
   document.querySelector(s).innerHTML = document.querySelector(s).innerHTML + "\n" + msg;
 }
+
 function clearScreenLog(selector) { 
   if (!selector) return;
-  document.querySelector(s).innerHTML = "";
+  document.querySelector(selector).innerHTML = "";
 }
+
+
+
+async function handleTxButton() {
+
+    var json = null;
+    var jobID = "";
+
+    try {
+
+        var mediaURI = document.querySelector("#tx_uri").value;
+        if (!mediaURI || mediaURI.length < 6) {
+            showSnackbar("Yikes, that doesn't look right.", true);
+            return;
+        }
+
+        logToScreen("\nCreating TDO...\n", "#txZoneCode");
+        var tdo = await createTDO();
+        if ('errors'in tdo) {
+            showSnackbar("Error response from GraphQL server.", true);
+            logToScreen(JSON.stringify(tdo, null, 3), "#txZoneCode");
+        }
+        var tdoID = tdo.data.createTDO.id;
+        logToScreen("\nTDO created with id: " + tdoID, "#txZoneCode");
+        logToScreen("\n" + JSON.stringify(tdo, null, 3), "#txZoneCode");
+
+        var engineID = "54525249-da68-4dbf-b6fe-aea9a1aefd4d";
+
+        var q = createTheJobQuery(tdoID, engineID, mediaURI);
+        // start the job
+        var data = await runQueryGET(q,_token);
+        if (data && typeof data == 'string') {
+            json = JSON.parse(data);
+            logToScreen("\ncreateJob() gave back:\n" + JSON.stringify(json, null, 3), "#txZoneCode");
+            if ('errors'in json) {// TODO bail, handle error
+            }
+            jobID = json.data.createJob.id;
+            logToScreen("\nNow we will poll for completion every 15 sec, a maximum of 50 times.\n", "#txZoneCode");
+
+            // POLL
+            _pollkey = setInterval(()=>{
+                checkTheJob(jobID, engineID)
+            }
+            , POLL_INTERVAL);
+        }
+        // if
+
+    } catch (e) {
+        showSnackbar("Exception caught. Check console.", true);
+        console.log(e.toString() + " in handleTxButtoin()");
+    }
+
+}
+
 
 async function checkTheJob(jobID, engineID) {
 
   // DEBUG
-  logToScreen("Entered checkTheJob().");
+  logToScreen("\nEntered checkTheJob().\nPoll Attempts = " + _totalPollAttempts, "#txZoneCode");
 
 
     var q = `query jobStatus {
@@ -41,8 +97,10 @@ async function checkTheJob(jobID, engineID) {
 }`.replace(/JOB_ID/, jobID);
 
 
- 
+    // Query the job status
     var json = await runQueryGET(q,_token);
+  
+    // response will be text (serialized json)
     if (json && typeof json == 'string') {
         json = JSON.parse(json);
         if ('errors'in json) {
@@ -65,23 +123,27 @@ async function checkTheJob(jobID, engineID) {
       
             if (jobFinished && tasksAllCompleted) {
 
-                logToScreen("Job complete, all tasks complete.");
+                logToScreen("\nJob complete, all tasks complete.\n", "#txZoneCode");
 
                 clearInterval( _pollkey );
                 _totalPollAttempts = 0;
 
+                // Now get the engine's results
                 var q = createEngineResultsQuery(tdoID, engineID);
                 var tx = await getResults(q, _token);
 
-                // TODO: showMsg() and show tx in div.
-                logToScreen( tx );
+                // Show tx in div.
+                logToScreen( tx , "#txZoneText");
             }
-            else logToScreen("Job complete = " + jobFinished + " & " + completedTasks + " tasks complete, out of " + totalTasks);
+            else logToScreen("\nJob status = " + json.data.job.status + 
+                             " & " + completedTasks + 
+                             " tasks complete, out of " + totalTasks, "#txZoneCode");
 
+            // Timed out? 
             if ( _totalPollAttempts++ >= MAX_POLL_ATTEMPTS ) {
                 clearInterval( _pollkey );
                 _totalPollAttempts = 0;
-                logToScreen("Stopped polling after MAX_POLL_ATTEMPTS");                 
+                logToScreen("Stopped polling after MAX_POLL_ATTEMPTS","#txZoneCode");                 
             }
 
         } // else
