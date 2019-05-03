@@ -26,7 +26,7 @@ async function cancelJob( jobID ) {
   cancelJob(id: "JOB") {
     id
   } 
-}'.replace(/JOB/,jobID);
+}`.replace(/JOB/,jobID);
 
   var data = await runQueryGET(q, _token);
 
