@@ -19,10 +19,10 @@
      </p>
      <p><button onclick="login()">Log in</button></p> 
     
-    <p><ul style="font-size:var(--mediumFontSize)">After you've logged in, check out:
+    <p><ul>After you've logged in, check out:<div style="font-size:var(--mediumFontSize)">
     <li><a href="#slack" title="Go to Slack Setup">Slack Setup</a> (get log messages via Slack!)</li>
     <li><a href="#tdo" title="Manage TDOs">Manage TDOs</a></li>
-    <li><a href="#tx" title="Transcribe a Video">Run a Transcription Job</a></li><br/>
+         <li><a href="#tx" title="Transcribe a Video">Run a Transcription Job</a></li><br/></div>
     </ul>
     </p>
     
@@ -34,6 +34,7 @@
     <h1 id="slack">Receive Slack Notifications?</h1>
      <p id="slackMessage">If you have a <a href="https://get.slack.help/hc/en-us/articles/115005265063-Incoming-WebHooks-for-Slack" target="_blank">
        Slack webhook</a>, enter it below to receive Slack messages after each action. 
+       <div style="font-size:var(--smallFontSize);">E.g.: https://hooks.slack.com/services/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</div>
      </p>       
      <p>          <label>Slack Webhook URL:<br/><input id="slackWebhook" type="text" name="slackWebhook"></label>
      </p>
@@ -72,7 +73,7 @@
   <!-- Sample video: Veritone Discovery (low rez)
        https://drive.google.com/file/d/13pZixYCAwU_beSdl89EZx_JPMgkgY6Ao/view?usp=sharing -->
      <h1 id="tx">Run a Transcription Job</h1>
-     <p>Enter the URI of an .mp4 file (audio or video). <br/>
+     <p>Enter the URI of an .mp4 file (audio or video). 
        <div style="font-size:var(--smallFontSize);">E.g.: https://drive.google.com/file/d/13pZixYCAwU_beSdl89EZx_JPMgkgY6Ao/view?usp=sharing</div>
      </p>  
       <p>          <label>URI:</label><br/><input id="tx_uri" type="text" name="tx_uri">
