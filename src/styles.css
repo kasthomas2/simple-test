@@ -170,6 +170,10 @@ pre code {
   padding: 0;
   border: 0;
 }
+pre .scrolling {
+  max-height:800px; 
+  overflow-y:scroll;	
+}
 
 code .token {
   padding: 0;
