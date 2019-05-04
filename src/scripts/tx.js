@@ -45,6 +45,7 @@ async function handleTxButton() {
             return;
         }
 
+        clearScreenLog("#txZoneCode");
         logToScreen("\nCreating TDO...\n", "#txZoneCode");
         var tdo = await createTDO();
         if ('errors'in tdo) {
