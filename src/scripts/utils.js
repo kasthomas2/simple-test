@@ -243,7 +243,8 @@ function loginAndGetToken(username, pw) {
         }
         _token = json.data.userLogin.token;
         console.log(JSON.stringify(json));
-        showMsg("Successful log-in! Your token is: <b>" + _token + "</b>", "#message" );
+        showMsg("Successful log-in! Your token is: <mark><b>" + _token + "</b></mark><br/>" +
+           "(This token will automatically be used in all API calls from this point on.)", "#message" );
         showSnackbar("Looks good. Your token is shown above.")
     }
     );
