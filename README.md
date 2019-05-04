@@ -28,6 +28,6 @@ More to come.
 
 The demo site is automagically built using Netlify, and Netlify kindly deploys my lambdas to AWS so I don't have to, which is very cool indeed. Note: There are lots of demo lambda scripts under src/lambda. The only one my demo page actually calls is `gql.js`.
 
-All the page scripts are in one file (/scripts/utils.js) and all the HTML is in index.html, the way nature intended.
+All the page scripts are in one file (/scripts/utils.js), the transcription-job code is in /scripts/tx.js, and **all the HTML is in index.html, the way nature intended.**
 
 *Disclosure: I work for Veritone, but this repo is a personal spare-time project, not an official Veritone project. Use the code freely but at your own risk.*
