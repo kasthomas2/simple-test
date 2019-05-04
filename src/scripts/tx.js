@@ -71,7 +71,7 @@ async function handleTxButton() {
 
             var cancelbutton = ` <button 
              class="smallbutton button-red"
-             onclick="cancelJob(\"JOB\"); cancelPoll();">Cancel Job</button>`.replace(/JOB/,jobID).replace('" ','"');
+             onclick="cancelJob(JOB); cancelPoll();">Cancel Job</button>`.replace(/JOB/,"\"jobID\"");
 
             logToScreen( cancelbutton, "#txZoneText");
 
