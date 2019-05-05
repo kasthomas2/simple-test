@@ -21,6 +21,14 @@ function cancelPoll() {
   }
 }
 
+function createCancelJobButton() { 
+  var cancelbutton = ` <button 
+             class="smallbutton button-red"
+             onclick="cancelJob('JOB'); cancelPoll();">Cancel Job</button>`.replace(/JOB/,jobID.trim());
+  clearScreenLog("#txZoneText");
+  logToScreen( cancelbutton, "#txZoneText");
+}
+
 async function cancelJob( jobID ) {
   var q = `mutation {
   cancelJob(id: "JOB") {
@@ -69,12 +77,8 @@ async function handleTxButton() {
             jobID = json.data.createJob.id;
             logToScreen("\nNow we will poll for completion every 15 sec, a maximum of "+MAX_POLL_ATTEMPTS+" times.\n", "#txZoneCode");
 
-            var cancelbutton = ` <button 
-             class="smallbutton button-red"
-             onclick="cancelJob(JOB); cancelPoll();">Cancel Job</button>`.replace(/JOB/,'\"'+jobID+'\"');
-            clearScreenLog("#txZoneText");
-            logToScreen( cancelbutton, "#txZoneText");
-
+            createCancelJobButton();
+          
             // POLL
             _pollkey = setInterval(()=>{
                 checkTheJob(jobID, engineID)
@@ -149,6 +153,9 @@ async function checkTheJob(jobID, engineID) {
 
                 logToScreen("\nJob complete, all tasks complete.\n", "#txZoneCode");
                 cancelPoll();
+                
+                // remove the Cancel Job button
+                clearScreenLog("#txZoneText");
 
                 // Now get the engine's results
                 var q = createEngineResultsQuery(tdoID, engineID);
@@ -163,7 +170,12 @@ async function checkTheJob(jobID, engineID) {
 
             // Timed out? 
             if ( _totalPollAttempts++ >= MAX_POLL_ATTEMPTS ) {
+              
                 cancelPoll();
+              
+                // remove the Cancel Job button
+                clearScreenLog("#txZoneText");
+              
                 logToScreen("Stopped polling after MAX_POLL_ATTEMPTS","#txZoneCode");                 
             }
 
