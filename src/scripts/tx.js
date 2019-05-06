@@ -21,7 +21,7 @@ function cancelPoll() {
   }
 }
 
-function createCancelJobButton() { 
+function createCancelJobButton( jobID ) { 
   var cancelbutton = ` <button 
              class="smallbutton button-red"
              onclick="cancelJob('JOB'); cancelPoll();">Cancel Job</button>`.replace(/JOB/,jobID.trim());
@@ -77,7 +77,7 @@ async function handleTxButton() {
             jobID = json.data.createJob.id;
             logToScreen("\nNow we will poll for completion every 15 sec, a maximum of "+MAX_POLL_ATTEMPTS+" times.\n", "#txZoneCode");
 
-            createCancelJobButton();
+            createCancelJobButton(jobID);
           
             // POLL
             _pollkey = setInterval(()=>{
