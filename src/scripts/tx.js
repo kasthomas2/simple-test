@@ -276,37 +276,3 @@ async function getResults(q, _token) {
 }
 
 
-async function transcribe(mediaURI) {
-
-    var json = null;
-    var jobID = null;
-
-    try {
-        let engineID = "54525249-da68-4dbf-b6fe-aea9a1aefd4d";
-
-        let tdo = await createTDO();
-        console.log(tdo.data.createTDO.id + " is the tdo ID");
-        let tdoID = tdo.data.createTDO.id;
-        var q = createTheJobQuery(tdoID, engineID, mediaURI);
-
-        // start the job
-        var data = await runQueryGET(q,_token);
-        if (data && typeof data == 'string') {
-            json = JSON.parse(data);
-            if ('errors'in json) {// TODO bail
-            }
-            jobID = json.data.createJob.id;
-            // TODO: Log
-            // TODO: checkTheJob( jobID, engineID )
-            // q = createEngineResultsQuery(tdoID, engineID);
-            // var tx = await getResults(q, _token);
-            // showMsg( ) in a proper div
-        }
-
-    } catch (e) {
-        "Exception caught in transcribe(): " + e.toString();
-    }
-
-}
-
-
