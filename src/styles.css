@@ -170,8 +170,8 @@ pre code {
   padding: 0;
   border: 0;
 }
-pre .scrolling {
-  height:360px; 
+pre.scrolling {
+  max-height:500px; 
   overflow-y:scroll;	
 }
 
