@@ -149,6 +149,7 @@ async function checkTheJob(jobID, engineID) {
                      
             var tdoID = json.data.job.targetId; // the tdoID is hidden under targetID
       
+            // SUCCESS
             if (jobFinished && tasksAllCompleted) {
 
                 logToScreen("\nJob complete, all tasks complete.\n", "#txZoneCode");
@@ -162,7 +163,10 @@ async function checkTheJob(jobID, engineID) {
                 var tx = await getResults(q, _token);
 
                 // Show tx in div.
-                logToScreen( tx , "#txZoneText");
+                var heading = "<h3>Success!</h3><b>Transcript:</b><br/>"; 
+                var mediaURI = document.querySelector("#tx_uri").value;
+                var linkToMedia = '<br/><a href="' + mediaURI + '">' + mediaURI + '</a>';
+                logToScreen( heading + tx + linkToMedia, "#txZoneText");
             }
             else logToScreen("\nJob status = " + json.data.job.status + 
                              " & " + completedTasks + 
