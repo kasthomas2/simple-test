@@ -7,6 +7,18 @@ var _slackURL = null;
 
 // =================================================================
 
+window.addEventListener("load", function(event) 
+{
+	let a = "access_token=";
+    var u = location.href;
+    if (u.indexOf(a) != -1) {
+        _token = u.split(a)[1];
+        showSnackbar("We're good. Token obtained.");
+    }
+});
+
+
+
 // Utility -- use showMsg() only to show persistent screen messages; 
 // use showSnackbar() otherwise.
 function showMsg(msg, id) {
