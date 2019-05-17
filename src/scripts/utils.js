@@ -9,10 +9,10 @@ var _slackURL = null;
 
 window.addEventListener("load", function(event) 
 {
-	let a = "access_token=";
+    let a = "access_token=";
     var u = location.href;
     if (u.indexOf(a) != -1) {
-        _token = u.split(a)[1];
+        _token = u.split(a)[1].split("&")[0];
         showSnackbar("We're good. Token obtained.");
     }
 });
