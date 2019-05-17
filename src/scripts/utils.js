@@ -7,6 +7,13 @@ var _slackURL = null;
 
 // =================================================================
 
+function showToken(selector) {
+    var tmsg = "Good news! Veritone has sent you a small token of appreciation:<br/>" +
+        '<div style="color:#288";font-size:7px;">' + _token + '</div>';
+    showMsg( tmsg,selector ); 
+    document.querySelector(selector).style['overflow-wrap']="break-word";
+}
+
 window.addEventListener("load", function(event) 
 {
     let a = "access_token=";
@@ -14,6 +21,7 @@ window.addEventListener("load", function(event)
     if (u.indexOf(a) != -1) {
         _token = u.split(a)[1].split("&")[0];
         showSnackbar("We're good. Token obtained.");
+	showToken("#smallToken");
     }
 });
 
