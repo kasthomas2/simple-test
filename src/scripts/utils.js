@@ -17,7 +17,18 @@ window.addEventListener("load", function(event)
     }
 });
 
+function getOAuthLink() {
+	
+    let clientID = "98aba40d-5bcb-4385-ac48-74763c88af74";
 
+    let AUTH_BASE  = "https://api.veritone.com/v1/admin/oauth/authorize?scope=all&response_type=token&client_id=";
+
+    let redirect = "&redirect_uri=" + "https://simple-test.netlify.com";
+
+    var OAuthLink = AUTH_BASE + clientID + redirect;
+	
+    return OAuthLink;
+}
 
 // Utility -- use showMsg() only to show persistent screen messages; 
 // use showSnackbar() otherwise.
