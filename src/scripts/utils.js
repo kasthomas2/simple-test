@@ -5,6 +5,55 @@ let TEXT_VALIDATION_FLUNK = "Yow, that doesn't look right. Try again.";
 var _token = null;
 var _slackURL = null;
 
+var TDO_QUERY_TEMPLATE = `{
+  temporalDataObject(id: theID) {
+    name
+    id
+    details
+    description
+    assets {
+      records {
+        id
+        assetType
+        name
+        signedUri
+        details
+        container {
+          id
+        }
+        type
+      }
+      count
+    }
+    status
+    engineRuns {
+      count
+    }
+    applicationId
+    sourceData {
+      source {
+        name
+        details
+      }
+      taskId
+      sourceId
+      scheduledJobId
+      engineId
+    }
+    thumbnailUrl
+    previewUrl
+    organization {
+      id
+    }
+    organizationId
+    jobs {
+      count
+    }
+    sourceImageUrl
+  }
+}
+`;
+
 // =================================================================
 
 function showToken(selector) {
@@ -116,14 +165,8 @@ async function handleTDOButton() {
 // handle a picker change (TDO list)
 async function handlePickerChange( ) {
     
-    // This is the query to get a single TDO
-   var q = `query {
-            temporalDataObject(id:theID){
-                name
-                jsondata
-            }
-    }`;
-
+    // Query to get a single TDO (uses global)
+   var q = TDO_QUERY_TEMPLATE;
     var picker = document.querySelector("#TDOpicker");
     var query = q.replace( /theID/, '"'+ picker.value + '"');
     
