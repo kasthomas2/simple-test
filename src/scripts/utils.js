@@ -56,24 +56,36 @@ var TDO_QUERY_TEMPLATE = `{
 
 // =================================================================
 
-function showToken(selector) {
+function showToken( selector,  token ) {
     var tmsg = "Good news! Veritone has sent you a small token of appreciation:<br/>" +
-        '<div style="color:#288;font-size:7.5pt;">' + _token + '</div>';
+        '<div style="color:#288;font-size:7.5pt;">' + token + '</div>';
     showMsg( "", "#message" ); // clear the default msg
     showMsg( tmsg,selector ); 
-    document.querySelector(selector).style['overflow-wrap']="break-word";
+    document.querySelector(selector).style['overflow-wrap']="break-word"; 
 }
 
 window.addEventListener("load", function(event) 
 {
     let a = "access_token=";
+    let b = "tdoId=";
     var u = location.href;
+	
+	// check if our URL contains a token
     if (u.indexOf(a) != -1) {
         _token = u.split(a)[1].split("&")[0];
-        showSnackbar("We're good. Token obtained.");
-	showToken("#smallToken");
+	if ( _token && _token.length > 0 ) {
+            showSnackbar("We're good. Token obtained.");
+	    showToken("#smallToken", _token);
+	}
+    }
+	// check if URL contains a tdoId
+    else if (u.indexOf(b) != -1) {
+	var tdoId = u.split(b)[1];
+	handlePickerChange( tdoId );
+	showSnackbar("TDO request detected.");
     }
 });
+
 
 function getOAuthLink() {
 	
@@ -162,13 +174,15 @@ async function handleTDOButton() {
     showMsg( records.length + " TDOs total", "#tdoZoneCode" );
 }
 
-// handle a picker change (TDO list)
-async function handlePickerChange( ) {
+// handle a picker change (TDO list), 
+// or fetch the passed-in tdoId
+async function handlePickerChange( tdoId ) {
     
     // Query to get a single TDO (uses global)
-   var q = TDO_QUERY_TEMPLATE;
+    var q = TDO_QUERY_TEMPLATE;
     var picker = document.querySelector("#TDOpicker");
-    var query = q.replace( /theID/, '"'+ picker.value + '"');
+    var id = tdoId || picker.value;
+    var query = q.replace( /theID/, '"'+ id + '"');
     
     var json = await runQueryGET(query,_token);
     if (json && typeof json == 'string') {
@@ -190,7 +204,8 @@ async function handleDeleteTDO() {
     }`;
 
     var picker = document.querySelector("#TDOpicker");
-    var mutation_delete = mutation_delete.replace( /theID/, '"'+ picker.value + '"');
+    var id = picker.value;
+    var mutation_delete = mutation_delete.replace( /theID/, '"'+ id + '"');
     
     var json = await runQueryGET(mutation_delete,_token);
     if (json && typeof json == 'string') {
