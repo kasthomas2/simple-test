@@ -29,7 +29,6 @@ var TDO_QUERY_TEMPLATE = `{
     engineRuns {
       count
     }
-    applicationId
     sourceData {
       source {
         name
