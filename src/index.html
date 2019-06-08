@@ -35,7 +35,9 @@
     <h1 id="slack">Receive Slack Notifications?</h1>
      <p id="slackMessage">If you have a <a href="https://get.slack.help/hc/en-us/articles/115005265063-Incoming-WebHooks-for-Slack" target="_blank">
        Slack webhook</a>, enter it below to receive Slack messages after each action. 
-       <div style="font-size:var(--smallFontSize);">E.g.: https://hooks.slack.com/services/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<br/>
+       <div style="font-size:var(--smallFontSize);"
+            onclick="var field=document.querySelector('slackWebhook');field.value='https://hooks.slack.com/services/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'">
+         E.g.: https://hooks.slack.com/services/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<br/>
          (which goes to the <b>#kt-webhooks-incoming</b> channel on Veritone's Slack, aka https://veritone.slack.com/messages/CJ2BXRJKA/)</div>
      </p>       
      <p>          <label>Slack Webhook URL:<br/><input id="slackWebhook" type="text" name="slackWebhook"></label>
