@@ -2,6 +2,7 @@
 let API_ENDPOINT = "https://api.veritone.com/v3/graphql";
 let SLACK_GREETING = "You look good in Slacks!";
 let TEXT_VALIDATION_FLUNK = "Yow, that doesn't look right. Try again.";
+let DAYS_TO_STORE_TOKEN = 1;
 var _token = null;
 var _slackURL = null;
 
@@ -53,7 +54,28 @@ var TDO_QUERY_TEMPLATE = `{
 }
 `;
 
-// =================================================================
+// ==== cookies ====
+function setCookie(cname, cvalue, exdays) {
+  var d = new Date();
+  d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+  var expires = "expires="+d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function getCookie(cname) {
+  var name = cname + "=";
+  var ca = document.cookie.split(';');
+  for(var i = 0; i < ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
 
 function showToken( selector,  token ) {
     var tmsg = "Good news! Veritone has sent you a small token of appreciation:<br/>" +
@@ -63,6 +85,7 @@ function showToken( selector,  token ) {
     document.querySelector(selector).style['overflow-wrap']="break-word"; 
 }
 
+// onload handler
 window.addEventListener("load", function(event) 
 {
     let a = "access_token=";
@@ -75,10 +98,16 @@ window.addEventListener("load", function(event)
 	if ( _token && _token.length > 0 ) {
             showSnackbar("We're good. Token obtained.");
 	    showToken("#smallToken", _token);
+	    setCookie("token", _token, DAYS_TO_STORE_TOKEN);
 	}
     }
 	// check if URL contains a tdoId
     else if (u.indexOf(b) != -1) {
+	    
+	    // If !_token, see if we have a token from a prior session
+	if (!_token)
+		_token = getCookie( "token" );
+	    
 	var tdoId = u.split(b)[1];
 	handlePickerChange( tdoId );
 	showSnackbar("TDO request detected.");
@@ -334,7 +363,8 @@ function loginAndGetToken(username, pw) {
         console.log(JSON.stringify(json));
         showMsg("Successful log-in! Your token is: <mark><b>" + _token + "</b></mark><br/>" +
            "(This token will automatically be used in all API calls from this point on.)", "#message" );
-        showSnackbar("Looks good. Your token is shown above.")
+        showSnackbar("Looks good. Your token is shown above.");
+	setCookie("token", _token, DAYS_TO_STORE_TOKEN);
     }
     );
 }
