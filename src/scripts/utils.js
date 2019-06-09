@@ -107,7 +107,7 @@ window.addEventListener("load", function(event)
 	if (!_token)
 		_token = getCookie( "token" );
 	    
-	var tdoId = u.split(b)[1];
+	var tdoId = u.split(b)[1].split(/[#&]/)[0];
 	handlePickerChange( tdoId );
 	showSnackbar("TDO request detected.");
     }
