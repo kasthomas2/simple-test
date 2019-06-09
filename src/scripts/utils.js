@@ -222,7 +222,7 @@ async function handleTDOButton() {
     showMsg( records.length + " TDOs total", "#tdoZoneCode" );
 	
     // if Assets are showing, remove them
-    showMsg("", #tdoAssets");
+    showMsg("", "#tdoAssets");
 	    
     // if Delete TDO button is showing, hide it
     var deleteTDOButton = document.querySelector("#deleteTDObutton");
