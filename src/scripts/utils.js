@@ -22,7 +22,6 @@ var TDO_QUERY_TEMPLATE = `{
         container {
           id
         }
-        type
       }
       count
     }
