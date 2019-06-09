@@ -220,6 +220,13 @@ async function handleTDOButton() {
     var records = json.data.temporalDataObjects.records;
     createPicker( "#tdoZone", records );
     showMsg( records.length + " TDOs total", "#tdoZoneCode" );
+	
+    // if Assets are showing, remove them
+    showMsg("", #tdoAssets");
+	    
+    // if Delete TDO button is showing, hide it
+    var deleteTDOButton = document.querySelector("#deleteTDObutton");
+    deleteTDOButton.style.display = "none";
 }
 
 // handle a picker change (TDO list), 
