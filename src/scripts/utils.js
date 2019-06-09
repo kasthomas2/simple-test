@@ -192,6 +192,27 @@ async function getTDOs() {
     return json;
 }
 
+function showAssets( json ) {
+    if ('assets' in json.data.temporalDataObject ) {
+         var records = json.data.temporalDataObject.assets.records;
+         var markup = "";
+         var link = '<a href="URL" target="_blank">TARGET</a>';
+         var results = [];
+         var node = document.querySelector("#tdoZone");
+         records.forEach( item=> { 
+             if (item.signedUri && item.signedUri.length > 0) {
+                  var a = link.replace("URL",item.signedUri).replace("TARGET",item.assetType);
+                  results.push( a );
+             }
+         });
+
+         var msg = '<div style="font-size:var(--mediumFontSize);"><b>Assets in this TDO:</b><br/>' + results.join("<br/>") + "</div>"; 
+         if (results.join("").length == 0)
+			msg = '<div style="font-size:var(--mediumFontSize);"><b>No assets in this TDO</b><br/><div>';
+         node.innerHTML = msg;
+    }
+}
+
 // get TDOs and create picker
 async function handleTDOButton() {
     var json = await getTDOs();
@@ -216,6 +237,7 @@ async function handlePickerChange( tdoId ) {
         json = JSON.parse(json);
         showMsg( "", "#tdoZoneCode" ); // erase the old msg
         showMsg( JSON.stringify(json,null,3 ), "#tdoZoneCode" );
+	showAssets( json );
         
             // Make the Delete TDO button visible
         var deleteTDOButton = document.querySelector("#deleteTDObutton");
