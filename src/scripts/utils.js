@@ -198,7 +198,7 @@ function showAssets( json ) {
          var markup = "";
          var link = '<a href="URL" target="_blank">TARGET</a>';
          var results = [];
-         var node = document.querySelector("#tdoZone");
+         var node = document.querySelector("#tdoAssets");
          records.forEach( item=> { 
              if (item.signedUri && item.signedUri.length > 0) {
                   var a = link.replace("URL",item.signedUri).replace("TARGET",item.assetType);
