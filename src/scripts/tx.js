@@ -2,6 +2,7 @@ _pollkey = null; // Ugh, this is needed for clearInterval()
 _totalPollAttempts = 0;
 var MAX_POLL_ATTEMPTS = 40;
 var POLL_INTERVAL = 15000;
+var DEFAULT_ENGINE = "54525249-da68-4dbf-b6fe-aea9a1aefd4d";
 
 function logToScreen(msg, selector) {
   var s = selector || "#txZoneCode";
@@ -64,7 +65,7 @@ async function handleTxButton() {
         logToScreen("\nTDO created with id: " + tdoID, "#txZoneCode");
         logToScreen("\n" + JSON.stringify(tdo, null, 3), "#txZoneCode");
 
-        var engineID = "54525249-da68-4dbf-b6fe-aea9a1aefd4d";
+        var engineID = DEFAULT_ENGINE;
 
         var q = createTheJobQuery(tdoID, engineID, mediaURI);
         // start the job
