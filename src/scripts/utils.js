@@ -116,7 +116,7 @@ window.addEventListener("load", function(event)
 
 function getOAuthLink() {
 	
-    let clientID = "98aba40d-5bcb-4385-ac48-74763c88af74";
+    let clientID = "557810e9-f38f-40de-991d-e0adff77cb86"; // old: "98aba40d-5bcb-4385-ac48-74763c88af74";
 
     let AUTH_BASE  = "https://api.veritone.com/v1/admin/oauth/authorize?scope=all&response_type=token&client_id=";
 
