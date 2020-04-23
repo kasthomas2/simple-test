@@ -26,7 +26,7 @@ function doNotifications(q) {
 // Warning: No try/catch. Wrap it at point of use!
 async function runQueryGET(q, token) {
 
-    let LAMBDA_ENDPOINT = "https://simple-test.netlify.com/.netlify/functions/gql?"
+    let LAMBDA_ENDPOINT = "https://veritone-k1.netlify.app/.netlify/functions/gql?"
     var url = LAMBDA_ENDPOINT + "token=" + token + "&query=" + encodeURI(q);
     doNotifications(q);
 
@@ -123,7 +123,7 @@ async function handleDeleteTDO() {
         showMsg( "", "#tdoZoneCode" ); // erase the old msg
         showMsg( JSON.stringify(json,null,3 ), "#tdoZoneCode" );
     }
-    location.href = "https://simple-test.netlify.com/#tdo"; // go back to start of section
+    location.href = "https://veritone-k1.netlify.app/#tdo"; // go back to start of section
 }
 
 async function handleCreateTDO() {
