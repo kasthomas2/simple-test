@@ -2,7 +2,7 @@
 
 Under construction.
 
-Live demo: https://simple-test.netlify.com
+Live demo: https://veritone-k1.netlify.app/
 
 To use it, you should first sign up at https://www.veritone.com/wp/sign-up/ (free account). Then you can use the same credentials to sign in to Veritone via the demo page. That way, the demo page obtains your bearer token (session token for the Veritone API) and can use it to run GraphQL queries on your behalf.
 
@@ -15,13 +15,14 @@ You should also (optionally) obtain a Slack webhook and paste your webhook URL i
 - How to run GraphQL queries via browser `fetch()`
 - How to delegate GraphQL queries to an AWS Lambda (see src/lambda/gql.js) so you can run your queries as simple GETs against the lambda (Veritone's API server only accepts POSTs!)
 - Create/read/delete TDOs (Temporal Data Objects)
+- Run a transcription job on a video. 
 
-Coming soon: Run a transcription job on a video. (And more.)
+The demo site is automagically built using Netlify, and Netlify kindly deploys my lambdas to AWS so I don't have to, which is very cool indeed. Note: There are lots of demo lambda scripts under src/lambda. The only one my app actually uses is `gql.js`.
 
-The demo site is automagically built using Netlify, and Netlify kindly deploys my lambdas to AWS so I don't have to, which is very cool indeed. Note: There are lots of demo lambda scripts under src/lambda. The only one my demo page actually calls is `gql.js`.
+All the HTML is in index.html, the way nature intended.
 
-All the page scripts are in one file (/scripts/utils.js) and all the HTML is in index.html, the way nature intended.
+No frameworks (React, etc.) are used. This is a plain vanilla web app.
 
-Use/steal/copy my code as you wish, but only at your own risk!
+Steal/copy the code as you wish, but only at your own risk!
 
 *Disclosure: I work for Veritone, but this repo is a personal spare-time project, not supported by Veritone.*
