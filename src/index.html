@@ -1,38 +1,41 @@
 <html lang="en">
   <head>
-    <title>Veritone Examples</title>
+    <title>K1</title>
     <link href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAPFBMVEUAAAAAZv8AZv8AZv8AZv8AZv8AZv8BZ/8CZ/8DaP8EaP8Faf8Hav8Ja/8KbP8Mbf8Obv8RcP8Wc/////81iY9uAAAABnRSTlMAb3LY2+GCqSWoAAAAYUlEQVQoz22PSRLCMBDEpDEx//8u4GkOoXKI6aOqepNygEBgpfUAfyDw9hBFSUiIE7WUpJPgVEf54JNeSZw6Rll0eq3E5wkkF6gxOfVa/RfcLFvoXnsftk3fzlFV1/3u/gJbSFZdzxNgRgAAAABJRU5ErkJggg=="  
           rel="icon" type="image/x-icon" />
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,500|Roboto+Mono" rel="stylesheet">
     <link href="/normalize.css" rel="stylesheet">
-    <link href="/styles.css" rel="stylesheet">    
-    
+    <link href="/styles.css" rel="stylesheet">     
   </head>
   <body>
+    
+    <!-- --------------------------- LOG-IN ----------------------------- -->
     <h1 id="top">Log-In</h1>  
      <p id="message">First we need to log in to the system. Enter your 
-       <a href="https://www.veritone.com/login/#/">Veritone<a> credentials below. 
-     </p>       <form>
+       <a href="https://www.veritone.com/login/#/">Veritone</a> credentials below. 
+     </p>       
+     <p id="smallToken">Or try the <a href="javascript:location.href=getOAuthLink();void(0);">OAuth link</a>.</p>
      <p>          <label>User Name<br/><input id="username" type="text" name="username"></label>
      </p>
-     <p>          <label>Password<br/><input id="pw" type="text" name="pw"></label>
-     </p>      </form>
+     <p>          <label>Password<br/><input id="pw" type="password" name="pw"></label>
+     </p>
      <p><button onclick="login()">Log in</button></p> 
     
-    <p><ul style="font-size:var(--mediumFontSize)">After you've logged in, check out:
-    <li><a href="#slack" title="Go to Slack Setup">Slack Setup</a> </li>
-    <li><a href="#tdo" title="Manage TDOs">Manage TDOs</a></li><br/>
-    </ul>
+    <p style="font-size:var(--mediumFontSize)">After you've logged in, check out:
+    <li><a href="#slack" title="Go to Slack Setup">Slack Setup</a> (get log messages via Slack!)</li>
+    <li><a href="#tdo" title="Manage TDOs">Manage TDOs</a></li>
+    <li><a href="#tx" title="Transcribe a Video">Run a Transcription Job</a></li><br/>
+    <p style="font-size:var(--smallFontSize);">Find the code for this app at <a href="https://github.com/kasthomas/simple-test">Github</a>.</p>
     </p>
     
-    
     <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
     <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
     
-    
+    <!-- --------------------------- SLACK SETUP ----------------------------- -->   
     <h1 id="slack">Receive Slack Notifications?</h1>
      <p id="slackMessage">If you have a <a href="https://get.slack.help/hc/en-us/articles/115005265063-Incoming-WebHooks-for-Slack" target="_blank">
        Slack webhook</a>, enter it below to receive Slack messages after each action. 
+
      </p>       
      <p>          <label>Slack Webhook URL:<br/><input id="slackWebhook" type="text" name="slackWebhook"></label>
      </p>
@@ -41,50 +44,58 @@
     <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
     <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
     
-        
-    
-    
-    
+    <!-- --------------------------- TDO CRUD ----------------------------- -->
     <h1 id="tdo">Create or View TDOs</h1>
      <p>Click the button to see if you have any TDOs. (Finds up to 100.)
      </p>       
      <p><button onclick="handleTDOButton()">Get TDOs</button></p> 
      <div id="tdoZone"></div><br/>
+     <div id="tdoAssets"></div><br/>
      <pre id="tdoZoneCode"></pre>
-     <button id="deleteTDObutton" 
-             class="smallbutton"
-             style="display:none;" 
-             onclick="handleDeleteTDO()">Delete This TDO</button>
-     <br/><br/>
+
+    <div>
      <button id="createTDObutton" 
              class="smallbutton"
-             onclick="handleCreateTDO()">Create New TDO</button>
+             onclick="handleCreateTDO()">Create New TDO</button> <br/><br/>
+      <button id="deleteTDObutton" 
+             class="smallbutton button-red"
+             style="display:none;" 
+             onclick="handleDeleteTDO()">Delete This TDO</button>
+    </div>
        
     <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
     <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
   
+  <!-- --------------------------- TRANSCRIPTION JOB ----------------------------- -->
+     <h1 id="tx">Run a Transcription Job</h1>
+     <p>Enter the URI of an .mp4 file (audio or video). 
+       <div style="font-size:var(--smallFontSize);">E.g.: https://drive.google.com/file/d/13pZixYCAwU_beSdl89EZx_JPMgkgY6Ao/view?usp=sharing<br/>
+     or https://drive.google.com/file/d/1LQik-3tAsgJgfj9JZZf4XcUhFbQRfshS/view?usp=sharing 
+         <br/>or https://s3.amazonaws.com/dev-chunk-cache-tmp/AC.mp4 
+<br/> or https://drive.google.com/file/d/1zui6zGqzxzKqoZ-1xaJC1x0MzffiKOmP/view?usp=sharing</div>
+     </p>  
+      <p>          <label>URI:</label><br/><input id="tx_uri" type="text" name="tx_uri">
+     </p>
+     <p><button onclick="handleTxButton()">Transcribe it!</button></p> 
+     <div id="txZone"></div><br/>
+     <pre id="txZoneCode" class="scrolling"></pre>
+     <div id="txZoneText"></div>
   
-  
-  
-  <!-- Sample video: Veritone Discovery (low rez)
-       https://drive.google.com/file/d/13pZixYCAwU_beSdl89EZx_JPMgkgY6Ao/view?usp=sharing -->
-  
-  
-  
-  
-  
-  
-    
+    <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+    <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+ 
     <!-- --------------------------- FOOTER ----------------------------- -->
-    <div class="footer"><b>
+    <div class="footer">
         <a href="#top" title="Click to go back to the top">Log-In</a> &nbsp;|&nbsp; 
         <a href="#slack" title="Go to Slack Setup">Slack Setup</a> &nbsp;|&nbsp; 
-        <a href="#tdo" title="Manage TDOs">TDOs</a>
+        <a href="#tdo" title="Manage TDOs">TDOs</a> &nbsp;|&nbsp; 
+        <a href="#tx" title="Transcribe a video">Transcribe</a>
     </div>
      <div id="snackbar"></div> <!-- This is hidden. It will serve toast messages -->
      <div id="slackthing"><img style="height:48px;width:48px;" src="./static/slack76.png"/></div><!-- slack icon thing -->
       
-     <script src="/scripts/utils.js"><script>
+     <script src="/scripts/utils.js"></script>
+     <script src="/scripts/tx.js"></script>
      <script src="https://cdn.jsdelivr.net/npm/prismjs@1.14.0/prism.min.js"></script>
      <script src="main.js"></script> 
      
