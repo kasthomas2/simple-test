@@ -153,7 +153,7 @@ async function handleCreateTDO() {
         showMsg( "", "#tdoZoneCode" ); // erase the old msg
         showMsg( comment + JSON.stringify(json,null,3 ), "#tdoZoneCode" );
     }
-    location.href = "https://simple-test.netlify.com/#tdo"; // go back to start of section
+    location.href = "https://simple-test.netlify.app/#tdo"; // go back to start of section
 }
 
 // Pass this a DOM selector, and json.data.temporalDataObjects.records
