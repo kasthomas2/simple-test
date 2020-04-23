@@ -2,10 +2,130 @@
 let API_ENDPOINT = "https://api.veritone.com/v3/graphql";
 let SLACK_GREETING = "You look good in Slacks!";
 let TEXT_VALIDATION_FLUNK = "Yow, that doesn't look right. Try again.";
+let DAYS_TO_STORE_TOKEN = 1;
 var _token = null;
 var _slackURL = null;
 
-// =================================================================
+var TDO_QUERY_TEMPLATE = `{
+  temporalDataObject(id: theID) {
+    name
+    id
+    details
+    description
+    assets {
+      records {
+        id
+        assetType
+        name
+        signedUri
+        details
+        container {
+          id
+        }
+      }
+      count
+    }
+    status
+    engineRuns {
+      count
+    }
+    sourceData {
+      source {
+        name
+        details
+      }
+      taskId
+      sourceId
+      scheduledJobId
+      engineId
+    }
+    thumbnailUrl
+    previewUrl
+    organization {
+      id
+    }
+    organizationId
+    jobs {
+      count
+    }
+    sourceImageUrl
+  }
+}
+`;
+
+// ==== cookies ====
+function setCookie(cname, cvalue, exdays) {
+  var d = new Date();
+  d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+  var expires = "expires="+d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function getCookie(cname) {
+  var name = cname + "=";
+  var ca = document.cookie.split(';');
+  for(var i = 0; i < ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+
+function showToken( selector,  token ) {
+    var tmsg = "Good news! Veritone has sent you a small token of appreciation:<br/>" +
+        '<div style="color:#288;font-size:7.5pt;">' + token + '</div>';
+    showMsg( "", "#message" ); // clear the default msg
+    showMsg( tmsg,selector ); 
+    document.querySelector(selector).style['overflow-wrap']="break-word"; 
+}
+
+// onload handler
+window.addEventListener("load", function(event) 
+{
+    let a = "access_token=";
+    let b = "tdoId=";
+    var u = location.href;
+	
+	// check if our URL contains a token
+    if (u.indexOf(a) != -1) {
+        _token = u.split(a)[1].split("&")[0];
+	if ( _token && _token.length > 0 ) {
+            showSnackbar("We're good. Token obtained.");
+	    showToken("#smallToken", _token);
+	    setCookie("token", _token, DAYS_TO_STORE_TOKEN);
+	}
+    }
+	// check if URL contains a tdoId
+    else if (u.indexOf(b) != -1) {
+	    
+	    // If !_token, see if we have a token from a prior session
+	if (!_token)
+		_token = getCookie( "token" );
+	    
+	var tdoId = u.split(b)[1].split(/[#&]/)[0];
+	handlePickerChange( tdoId );
+	showSnackbar("TDO request detected.");
+    }
+});
+
+
+function getOAuthLink() {
+	
+    let clientID = "98aba40d-5bcb-4385-ac48-74763c88af74";
+
+    let AUTH_BASE  = "https://api.veritone.com/v1/admin/oauth/authorize?scope=all&response_type=token&client_id=";
+
+    let redirect = "&redirect_uri=" + "https://veritone-k1.netlify.app";
+
+    var OAuthLink = AUTH_BASE + clientID + redirect;
+	
+    return OAuthLink;
+}
 
 // Utility -- use showMsg() only to show persistent screen messages; 
 // use showSnackbar() otherwise.
@@ -14,7 +134,7 @@ function showMsg(msg, id) {
     messageNode.innerHTML = msg;
 }
 
-function doNotifications(q) {
+function doNotifications(q,url) {
     let GRAPHIQL = "https://api.veritone.com/v3/graphiql?";
     var gqlLink = "<" + GRAPHIQL + "&query=" + encodeURI(q) + "|See it in GraphiQL>"; 
     var json = "\n```" + q + "```";
@@ -28,7 +148,7 @@ async function runQueryGET(q, token) {
 
     let LAMBDA_ENDPOINT = "https://veritone-k1.netlify.app/.netlify/functions/gql?"
     var url = LAMBDA_ENDPOINT + "token=" + token + "&query=" + encodeURI(q);
-    doNotifications(q);
+    doNotifications(q,url);
 
     return fetch(url).then(function(response) {
         return response.text();
@@ -72,6 +192,27 @@ async function getTDOs() {
     return json;
 }
 
+function showAssets( json ) {
+    if ('assets' in json.data.temporalDataObject ) {
+         var records = json.data.temporalDataObject.assets.records;
+         var markup = "";
+         var link = '<a href="URL" target="_blank">TARGET</a>';
+         var results = [];
+         var node = document.querySelector("#tdoAssets");
+         records.forEach( item=> { 
+             if (item.signedUri && item.signedUri.length > 0) {
+                  var a = link.replace("URL",item.signedUri).replace("TARGET",item.assetType);
+                  results.push( a );
+             }
+         });
+
+         var msg = '<div style="font-size:var(--mediumFontSize);"><b>Assets in this TDO:</b><br/>' + results.join("<br/>") + "</div>"; 
+         if (results.join("").length == 0)
+			msg = '<div style="font-size:var(--mediumFontSize);"><b>No assets in this TDO</b><br/><div>';
+         node.innerHTML = msg;
+    }
+}
+
 // get TDOs and create picker
 async function handleTDOButton() {
     var json = await getTDOs();
@@ -79,27 +220,31 @@ async function handleTDOButton() {
     var records = json.data.temporalDataObjects.records;
     createPicker( "#tdoZone", records );
     showMsg( records.length + " TDOs total", "#tdoZoneCode" );
+	
+    // if Assets are showing, remove them
+    showMsg("", "#tdoAssets");
+	    
+    // if Delete TDO button is showing, hide it
+    var deleteTDOButton = document.querySelector("#deleteTDObutton");
+    deleteTDOButton.style.display = "none";
 }
 
-// handle a picker change (TDO list)
-async function handlePickerChange( e ) {
+// handle a picker change (TDO list), 
+// or fetch the passed-in tdoId
+async function handlePickerChange( tdoId ) {
     
-    // This is the query to get a single TDO
-   var q = `query {
-            temporalDataObject(id:theID){
-                name
-                jsondata
-            }
-    }`;
-
+    // Query to get a single TDO (uses global)
+    var q = TDO_QUERY_TEMPLATE;
     var picker = document.querySelector("#TDOpicker");
-    var query = q.replace( /theID/, '"'+ picker.value + '"');
+    var id = tdoId || picker.value;
+    var query = q.replace( /theID/, '"'+ id + '"');
     
     var json = await runQueryGET(query,_token);
     if (json && typeof json == 'string') {
         json = JSON.parse(json);
         showMsg( "", "#tdoZoneCode" ); // erase the old msg
         showMsg( JSON.stringify(json,null,3 ), "#tdoZoneCode" );
+	showAssets( json );
         
             // Make the Delete TDO button visible
         var deleteTDOButton = document.querySelector("#deleteTDObutton");
@@ -115,7 +260,8 @@ async function handleDeleteTDO() {
     }`;
 
     var picker = document.querySelector("#TDOpicker");
-    var mutation_delete = mutation_delete.replace( /theID/, '"'+ picker.value + '"');
+    var id = picker.value;
+    var mutation_delete = mutation_delete.replace( /theID/, '"'+ id + '"');
     
     var json = await runQueryGET(mutation_delete,_token);
     if (json && typeof json == 'string') {
@@ -153,7 +299,7 @@ async function handleCreateTDO() {
         showMsg( "", "#tdoZoneCode" ); // erase the old msg
         showMsg( comment + JSON.stringify(json,null,3 ), "#tdoZoneCode" );
     }
-    location.href = "https://simple-test.netlify.app/#tdo"; // go back to start of section
+    location.href = "https://veritone-k1.netlify.app/#tdo"; // go back to start of section
 }
 
 // Pass this a DOM selector, and json.data.temporalDataObjects.records
@@ -243,8 +389,10 @@ function loginAndGetToken(username, pw) {
         }
         _token = json.data.userLogin.token;
         console.log(JSON.stringify(json));
-        showMsg("Successful log-in! Your token is: <b>" + _token + "</b>", "#message" );
-        showSnackbar("Looks good. Your token is shown above.")
+        showMsg("Successful log-in! Your token is: <mark><b>" + _token + "</b></mark><br/>" +
+           "(This token will automatically be used in all API calls from this point on.)", "#message" );
+        showSnackbar("Looks good. Your token is shown above.");
+	setCookie("token", _token, DAYS_TO_STORE_TOKEN);
     }
     );
 }
@@ -254,7 +402,6 @@ function loginAndGetToken(username, pw) {
 To use this, just put an empty <div id="snackbar"></div>
 in the page somewhere, include the .css (see styles.css),
 and call this function to pop the toast. 
-
 The optional 2nd arg makes the toast red.
 */
 
