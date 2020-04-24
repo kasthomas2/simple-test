@@ -229,7 +229,7 @@ async function handleTDOButton() {
        deleteTDOButton.style.display = "none";
     }
     catch(e) {
-	showSnackbar("Something went awry: " + e.toString(), true);  
+	showSnackbar("Oops. An exception. Check the console." , true);  
     }	
 }
 
