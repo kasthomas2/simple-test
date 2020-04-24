@@ -216,17 +216,21 @@ function showAssets( json ) {
 // get TDOs and create picker
 async function handleTDOButton() {
     var json = await getTDOs();
-    if (!json) return;
-    var records = json.data.temporalDataObjects.records;
-    createPicker( "#tdoZone", records );
-    showMsg( records.length + " TDOs total", "#tdoZoneCode" );
+    try {
+        var records = json.data.temporalDataObjects.records;
+       createPicker( "#tdoZone", records );
+       showMsg( records.length + " TDOs total", "#tdoZoneCode" );
 	
-    // if Assets are showing, remove them
-    showMsg("", "#tdoAssets");
+       // if Assets are showing, remove them
+       showMsg("", "#tdoAssets");
 	    
-    // if Delete TDO button is showing, hide it
-    var deleteTDOButton = document.querySelector("#deleteTDObutton");
-    deleteTDOButton.style.display = "none";
+       // if Delete TDO button is showing, hide it
+       var deleteTDOButton = document.querySelector("#deleteTDObutton");
+       deleteTDOButton.style.display = "none";
+    }
+    catch(e) {
+	showSnackbar("Something went awry: " + e.toString(), true);  
+    }	
 }
 
 // handle a picker change (TDO list), 
